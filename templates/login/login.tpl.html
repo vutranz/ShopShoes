@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập / Đăng Ký</title>
+    <link rel="stylesheet" href="login/login.css">
+    <link rel="stylesheet" href="./templates/login/login.css">
+
+    <style>
+        /* CSS cơ bản cho các form */
+        .form-container {
+            display: none; /* Ẩn các form khi chưa được chọn */
+        }
+
+        .form-container.active {
+            display: block; /* Hiển thị form khi có class 'active' */
+        }
+
+        /* Thêm style cho nút chuyển form */
+        .toggle-btn {
+            text-align: center;
+            font-size: 16px;
+            color: #007bff;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Thêm style cho thông báo lỗi */
+        #error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <h2 id="form-title">Đăng Nhập</h2>
+
+        <!-- Thông báo lỗi nếu có -->
+            {if $error_message}
+                <div id="error-message">{$error_message}</div>
+            {/if}
+        <!-- Form đăng nhập --> 
+        <div class="form-container active" id="login-form">
+            <form method="POST" action="index.php?action=login">
+                <input type="text" name="email" id="email" placeholder="Email Đăng Nhập"  required>
+                <input type="password" name="password" id="password" placeholder="Mật Khẩu"  required>
+                <button type="submit">Đăng Nhập</button>
+            </form>
+        </div>
+
+
+        <!-- Nút chuyển giữa Đăng Nhập và Đăng Ký -->
+        <div class="toggle-btn" id="toggle-btn">
+            Chưa có tài khoản? <a style="color: #fff;text-decoration: none;" href="index.php?action=FormRegister">Đăng ký ngay</a>
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Sản Phẩm</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            padding: 30px;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+        }
+        .form-group textarea {
+            height: 120px;
+        }
+        .form-group select {
+            background-color: #fff;
+            cursor: pointer;
+        }
+        .form-group input[type="file"] {
+            padding: 0;
+        }
+        .form-group button {
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .form-group button:hover {
+            background-color: #218838;
+        }
+        .form-group img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        .image-preview {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .form-group .color-picker {
+            display: flex;
+            justify-content: space-between;
+        }
+        .color-picker label {
+            flex: 1;
+            text-align: center;
+        }
+        .color-picker select {
+            flex: 2;
+        }
+        .form-group select:focus, .form-group input:focus, .form-group textarea:focus {
+            border-color: #80bdff;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Thêm Sản Phẩm Mới</h2>
+        <form action="index.php?action=addProduct" method="POST" enctype="multipart/form-data">
+            <!-- Tên sản phẩm -->
+            <div class="form-group">
+                <label for="name">Tên Sản Phẩm:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <!-- Mô tả -->
+            <div class="form-group">
+                <label for="description">Mô Tả:</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+
+            <!-- Giá -->
+            <div class="form-group">
+                <label for="price">Giá:</label>
+                <input type="number" id="price" name="price" required>
+            </div>
+
+            <!-- Tồn kho -->
+            <div class="form-group">
+                <label for="stock">Tồn Kho:</label>
+                <input type="number" id="stock" name="stock" required>
+            </div>
+
+          
+
+            <!-- Trạng thái -->
+            <div class="form-group">
+                <label for="is_active">Trạng Thái:</label>
+                <select id="is_active" name="is_active" required>
+                    <option value="1">Kích hoạt</option>
+                    <option value="0">Không kích hoạt</option>
+                </select>
+            </div>
+
+            <!-- Màu sắc -->
+            <div class="form-group color-picker">
+                <label for="color_id">Màu Sắc:</label>
+                <select id="color_id" name="color_id" required>
+                    {foreach from=$colors item=colors}
+                        <option value="{$colors->getId()}">{$colors->getColorName()}</option>
+                    {/foreach}
+                </select>
+            </div>
+            
+            <!-- Kích cỡ -->
+            <div class="form-group">
+                <label for="size_id">Kích Cỡ:</label>
+                <select id="size_id" name="size_id" required>
+                    {foreach from=$sizes item=sizes}
+                        <option value="{$sizes->getId()}">{$sizes->getSizeName()}</option>
+                    {/foreach}
+                </select>
+            </div>
+            
+            <!-- Danh mục -->
+            <div class="form-group">
+                <label for="category_id">Danh Mục:</label>
+                <select id="category_id" name="category_id" required>
+                    {foreach from=$categories item=category}
+                        <option value="{$category->getId()}">{$category->getName()}</option>
+                    {/foreach}
+                </select>
+            </div>
+            
+
+            <!-- Hình ảnh -->
+            <div class="form-group">
+                <label for="image">Chọn Hình Ảnh:</label>
+                <input type="file" name="images[]" accept="image/*" multiple>
+            </div>
+
+            <!-- Nút Thêm -->
+            <div class="form-group">
+                <button type="submit">Thêm Sản Phẩm</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Xem trước hình ảnh
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function() {
+                const imagePreview = document.getElementById("imagePreview");
+                imagePreview.innerHTML = '<img src="' + reader.result + '" alt="Hình ảnh sản phẩm">';
+            }
+            reader.readAsDataURL(file);
+        }
+    </script>
+
+</body>
+</html>
