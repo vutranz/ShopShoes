@@ -285,10 +285,16 @@ table th {
             {foreach from=$products item=product}
                 <tr>
                     <td>
+                        {assign var="i" value=0} <!-- Khởi tạo biến đếm -->
                         {foreach from=$product_images[$product->getId()] item=image}
+                            {if $i == 1}
+                                {break}
+                            {/if}
                             <img style="height: 100px; width: 100px; border: 2px solid #000; border-radius: 15px;" src="uploads/{$image->getUrl()}" alt="Product Image">
+                            {assign var="i" value=$i+1} <!-- Tăng biến đếm -->
                         {/foreach}
                     </td>
+                    
                     <td>{$product->getName()}</td>
                     <td>{$product->getDescription()}</td>
                     <td>{number_format($product->getPrice(), 0, '.', '.')} VND</td>

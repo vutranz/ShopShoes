@@ -57,6 +57,18 @@ class ColorService implements ColorInterface
     
         return $colors; 
     }
+
+    public function getIdBynamecolor($name){
+        $query = "SELECT `id` FROM `colors` WHERE `color_name` = :name AND `is_active` = 1";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':name', $name, \PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if($result) {
+            return $result['id'];
+        }
+        return null;
+    }
     
 }
 

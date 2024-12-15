@@ -55,6 +55,24 @@ class Product_imageService{
     
         return $images;
     }
+
+    public function getImagesByColorAndSize($productName, $colorName) {
+        $query = "
+            SELECT pi.url
+            FROM product_images pi
+            JOIN products p ON pi.product_id = p.id
+            JOIN colors c ON p.color_id = c.id
+            JOIN sizes s ON p.size_id = s.id
+            WHERE c.color_name = $colorName
+            AND p.name = $productName
+        ";
+        
+        $stmt = $this->connection->prepare($query);
+
+        $images = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $images;  
+    }
     
     
 }

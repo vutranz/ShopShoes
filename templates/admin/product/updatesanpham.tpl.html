@@ -140,7 +140,8 @@
                 <label for="color_id">Màu Sắc:</label>
                 <select id="color_id" name="color_id" required>
                     {foreach from=$colors item=colors}
-                        <option value="{$colors->getId()}">{$colors->getColorName()}</option>
+                        <option value="{$colors->getId()}" {if $colors->getId() == $products->getColorId()->getId()}selected{/if}>
+                            {$colors->getColorName()}</option>
                     {/foreach}
                 </select>
             </div>
@@ -150,7 +151,10 @@
                 <label for="size_id">Kích Cỡ:</label>
                 <select id="size_id" name="size_id" required>
                     {foreach from=$sizes item=sizes}
-                        <option value="{$sizes->getId()}">{$sizes->getSizeName()}</option>
+                        <option value="{$sizes->getId()}" {if $sizes->getId() == $products->getSizeId()->getId()}selected{/if}>
+                            {$sizes->getSizeName()}
+                        </option>
+                        
                     {/foreach}
                 </select>
             </div>
@@ -159,23 +163,40 @@
             <div class="form-group">
                 <label for="category_id">Danh Mục:</label>
                 <select id="category_id" name="category_id" required>
-                    {foreach from=$categories item=category}
-                        <option value="{$category->getId()}">{$category->getName()}</option>
+                    {foreach from=$categories item=categories}
+                        <option value="{$categories->getId()}" {if $categories->getId() == $products->getCategoryId()->getId()}selected{/if}>
+                            {$categories->getName()}
+                        </option>
                     {/foreach}
                 </select>
             </div>
-                    
 
-                    <!-- Hình ảnh -->
-                    <div class="form-group">
-                        <label for="images">Chọn Hình Ảnh:</label>
-                        <input type="file" id="images" name="images[]" accept="image/*" multiple required>
+            <div class="form-group">
+                <label>Hình ảnh hiện tại:</label>
+                {foreach from=$product_images[$products->getId()] item=image}
+                    <div style="display: inline-block; margin-right: 10px; text-align: center;">
+                        <img src="uploads/{$image->getUrl()}" alt="Hình ảnh sản phẩm" width="100">
+                        <br>
+                        <!-- Checkbox để giữ lại hình ảnh -->
+                        <label>
+                            <input type="checkbox" name="keep_images[]" value="{$image->getId()}" checked>
+                            Giữ lại
+                        </label>
                     </div>
-
-                    <!-- Nút Thêm -->
-                    <div class="form-group">
-                        <button type="submit">Update sản phẩm</button>
-                    </div>
+                {/foreach}
+            </div>
+            
+            <!-- Chọn ảnh mới -->
+            <div class="form-group">
+                <label for="images">Chọn Hình Ảnh (không bắt buộc):</label>
+                <input type="file" id="images" name="images[]" accept="image/*" multiple>
+            </div>
+            
+            <!-- Nút cập nhật -->
+            <div class="form-group">
+                <button type="submit">Cập nhật sản phẩm</button>
+            </div>
+            
                    
                 </form>
        

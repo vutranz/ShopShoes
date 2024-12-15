@@ -2,8 +2,6 @@
 
 namespace app\controller;
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 require_once 'E:/xampp/htdocs/ShopShoes/config/SmartyConfig.php';
 require_once 'E:/xampp/htdocs/ShopShoes/app/service/Product/ProductService.php';
@@ -31,6 +29,11 @@ class ProductController {
     public $product_imageService;
 
     public function __construct() {
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
         $this->smarty = SmartyConfig::getSmarty();
         $this->productService = new ProductService();
         $this->categoryService = new CategoryService(); 
@@ -55,7 +58,7 @@ class ProductController {
         $color = $this->colorService->getAllColors();
         $size = $this->sizeService->getAllSizes();
         $category = $this->categoryService->getAllCategory();
-
+    
         
     
         $product_images = [];
@@ -73,9 +76,6 @@ class ProductController {
         $this->smarty->display('templates\admin\product\listproduct.tpl.html');
     }
     
-    
-    
-
     public function getProductByIdController() {
         $id = 1;
         $products = $this->productService->getProductById($id);
@@ -129,21 +129,32 @@ class ProductController {
     
            
             if (isset($_FILES['images']) && $_FILES['images']['error'][0] == UPLOAD_ERR_OK) {
-                $totalFiles = count($_FILES['images']['name']); 
-                $uploadDir = 'uploads/'; 
-    
-               
+                $totalFiles = count($_FILES['images']['name']);
+                $uploadDir = 'uploads/';
+            
+                // Kiểm tra và tạo thư mục nếu chưa tồn tại
+                if (!file_exists($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+            
                 for ($i = 0; $i < $totalFiles; $i++) {
                     $imageName = basename($_FILES['images']['name'][$i]);
                     $imageTmpPath = $_FILES['images']['tmp_name'][$i];
-                    $targetFile = $uploadDir . $imageName;
-    
-                   
+            
+                    // Tạo tên tệp tin mới với ID sản phẩm để tránh trùng lặp
+                    $baseName = pathinfo($imageName, PATHINFO_FILENAME);
+                    $extension = pathinfo($imageName, PATHINFO_EXTENSION);
+                    $uniqueName = $productId . '_' . uniqid($baseName . '_') . '.' . $extension;
+            
+                    $targetFile = $uploadDir . $uniqueName;
+            
+                    // Kiểm tra loại tệp tin hợp lệ
                     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
                     if (in_array($_FILES['images']['type'][$i], $allowedTypes)) {
+                        // Di chuyển tệp tin tới thư mục đích
                         if (move_uploaded_file($imageTmpPath, $targetFile)) {
-                           
-                            $this->product_imageService->addProductImage($productId, $imageName);
+                            // Lưu thông tin tệp tin vào cơ sở dữ liệu hoặc dịch vụ
+                            $this->product_imageService->addProductImage($productId, $uniqueName);
                         } else {
                             echo 'Lỗi khi tải lên file ' . $imageName . '!';
                         }
@@ -152,6 +163,7 @@ class ProductController {
                     }
                 }
             }
+            
     
            
             header("Location: index.php?action=listproduct");
@@ -161,8 +173,6 @@ class ProductController {
         }
     }
     
-    
-
     public function updateProductController() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['id'])) {
@@ -183,7 +193,7 @@ class ProductController {
     
                 date_default_timezone_set('Asia/Ho_Chi_Minh');
                 $update_at = date('Y-m-d H:i:s');
-              
+    
                 $product = new Product(
                     null, 
                     $name, 
@@ -201,21 +211,36 @@ class ProductController {
                 $result = $this->productService->updateProduct($id, $product);
     
                 if ($result) {
+                    // Kiểm tra xem có upload hình ảnh mới hay không
                     if (isset($_FILES['images']) && $_FILES['images']['error'][0] == UPLOAD_ERR_OK) {
-                        $totalFiles = count($_FILES['images']['name']); 
+                        $totalFiles = count($_FILES['images']['name']);
                         $uploadDir = 'uploads/';
     
+                        // Kiểm tra và tạo thư mục nếu chưa tồn tại
+                        if (!file_exists($uploadDir)) {
+                            mkdir($uploadDir, 0777, true);
+                        }
+    
+                        // Xóa ảnh cũ chỉ khi có ảnh mới tải lên
                         $this->product_imageService->deleteImagesByProductId($id);
     
                         for ($i = 0; $i < $totalFiles; $i++) {
                             $imageName = basename($_FILES['images']['name'][$i]);
                             $imageTmpPath = $_FILES['images']['tmp_name'][$i];
-                            $targetFile = $uploadDir . $imageName;
     
+                            // Tạo tên tệp tin mới để tránh trùng lặp
+                            $baseName = pathinfo($imageName, PATHINFO_FILENAME);
+                            $extension = pathinfo($imageName, PATHINFO_EXTENSION);
+                            $uniqueName = $id . '_' . uniqid($baseName . '_') . '.' . $extension;
+    
+                            $targetFile = $uploadDir . $uniqueName;
+    
+                            // Kiểm tra loại tệp tin hợp lệ
                             $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
                             if (in_array($_FILES['images']['type'][$i], $allowedTypes)) {
                                 if (move_uploaded_file($imageTmpPath, $targetFile)) {
-                                    $this->product_imageService->addProductImage($id, $imageName);
+                                    // Lưu thông tin tệp tin mới vào cơ sở dữ liệu
+                                    $this->product_imageService->addProductImage($id, $uniqueName);
                                 } else {
                                     echo 'Lỗi khi tải lên file ' . $imageName . '!';
                                 }
@@ -225,6 +250,7 @@ class ProductController {
                         }
                     }
     
+                    // Nếu không có hình ảnh mới, giữ nguyên hình ảnh cũ
                     header("Location: index.php?action=listproduct");
                     exit;
                 } else {
@@ -237,10 +263,6 @@ class ProductController {
             echo 'Phương thức yêu cầu không hợp lệ!';
         }
     }
-    
-    
-    
-    
 
     public function showFormUpdateProductController(){
         $id = isset($_GET['id']) ? $_GET['id'] : null;
@@ -249,13 +271,20 @@ class ProductController {
         $categories = $this->categoryService->getAllCategory();
         $colors = $this->colorService->getAllColors();
         $sizes = $this->sizeService->getAllSizes();
-    
+
+        $product_images = [];
+        if ($products) {
+            $product_images[$products->getId()] = $this->product_imageService->getImagesByProductId($products->getId());
+        }
+        
+        $this->smarty->assign('product_images', $product_images);
+
+        
         $this->smarty->assign('categories', $categories);
         $this->smarty->assign('colors', $colors);
         $this->smarty->assign('sizes', $sizes);
-
         $this->smarty->assign('products',$products);
-        $this->smarty->display('updatesanpham.tpl.html');
+        $this->smarty->display('templates\admin\product\updatesanpham.tpl.html');
     }
     
     
@@ -281,13 +310,81 @@ class ProductController {
         $this->smarty->assign('sizes', $sizes);
     
 
-        $this->smarty->display('themsanpham.tpl.html');
+        $this->smarty->display('templates\admin\product\themsanpham.tpl.html');
     }
     
     public function showCountProductController(){
         $totalProduct = $this->productService->getCountProducts();
         echo $totalProduct;
     }
+
+    public function showProductDetail() {
+
+        $id = $_GET['id'];
+        $product = $this->productService->getProductById($id);
+        $productDetails = $this->productService->getColorByname($product->getName());
+
+        if ($product) {
+            $product_images = $this->product_imageService->getImagesByProductId($product->getId());
+            $this->smarty->assign('sizes', $productDetails['sizes']);
+            $this->smarty->assign('colors', $productDetails['colors']);
+            $this->smarty->assign('product', $product);
+            $this->smarty->assign('product_images', $product_images);
+            $this->smarty->display('templates/admin/product/productdetail.html');
+        } else {
+             echo "Sản phẩm không tồn tại.";
+        }
+       
+
+    }
+
+
+    public function buyProductController()
+    {
+        $id = $_GET['id'];
+        
+       
+        if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+           
+            echo "mua hàng thành công";
+        } else {
+            
+            echo "<div class='error-message'>Bạn chưa đăng nhập. Bạn có muốn <a href='index.php?action=FormLogin'>đăng nhập</a> để mua hàng không?</div>";
+            echo "<br><a href='javascript:history.back()' class='back-button'>Quay lại trang trước</a>";
+            exit(); 
+        }
+    }
+
+
+    public function getProductInfoController()
+    {
+        $name = $_POST['name'] ?? 'Sản phẩm A';
+        $size = $_POST['size'] ?? '37';
+        $color = $_POST['color'] ?? 'Đỏ';
+        
+
+        $size_id = $this->sizeService->getIdByNameSize($size);
+        $color_id = $this->colorService->getIdBynamecolor($color);
+    
+        $product = $this->productService->getProductByNameColorSize($name, $size_id, $color_id);
+    
+        if ($product) {
+
+            echo json_encode([
+                'status' => 'success',
+                'name' => $name,
+                'price' => $product->getPrice(),
+                'stock' => $product->getStock()
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Không tìm thấy sản phẩm với thông tin này!'
+            ]);
+        }
+    }
+    
+
     
 }
 ?>

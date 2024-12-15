@@ -1,5 +1,6 @@
 <?php
 namespace app\controller;
+
 require_once 'E:/xampp/htdocs/ShopShoes/config/SmartyConfig.php';
 require_once 'E:\xampp\htdocs\ShopShoes\app\service\Size\SizeService.php';
 
@@ -12,6 +13,9 @@ class SizeController{
     private $sizeService;
 
     public function __construct() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->smarty = SmartyConfig::getSmarty();
         $this->sizeService = new SizeService();
     }

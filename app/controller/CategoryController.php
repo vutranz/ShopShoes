@@ -14,6 +14,9 @@ class CategoryController{
     private $categoryService;
 
     public function __construct() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->smarty = SmartyConfig::getSmarty();
         $this->categoryService = new CategoryService();
     }

@@ -41,7 +41,33 @@ class UserService implements UserInterface
     public function updateUser($id, User $user){;}
     public function deleteUser($id){;}
     public function getAllUsers(){;}
-    public function getUserById($id){;}
+
+    public function getUserById($id){
+        $query = "SELECT * FROM `users` WHERE id = '$id'";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        
+        if ($result) {
+            return new User(
+                $result['id'],
+                $result['full_name'],
+                $result['gender'],
+                $result['email'],
+                $result['password'],
+                $result['phone_number'],
+                $result['address'],
+                $result['day_of_birth'],
+                $result['create_at'],
+                $result['update_at'],
+                $result['is_active'],
+                $result['profile_image']
+            );
+        }
+        
+        return null;  
+    }
 
     public function checkEmailExists($email) {
         $query = "SELECT COUNT(*) FROM users WHERE email = :email";
@@ -59,7 +85,26 @@ class UserService implements UserInterface
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':email', $email, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetch(\PDO::FETCH_ASSOC); 
+        $result =  $stmt->fetch(\PDO::FETCH_ASSOC); 
+
+        if ($result) {
+            return new User(
+                $result['id'],
+                $result['full_name'],
+                $result['gender'],
+                $result['email'],
+                $result['password'],
+                $result['phone_number'],
+                $result['address'],
+                $result['day_of_birth'],
+                $result['create_at'],
+                $result['update_at'],
+                $result['is_active'],
+                $result['profile_image']
+            );
+        }
+        
+        return null;  
     }
 
     public function assignRoleToUser($user_id, $role_id) {

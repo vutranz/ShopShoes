@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.1, created on 2024-12-07 15:43:09
+/* Smarty version 5.4.1, created on 2024-12-12 10:25:31
   from 'file:templates\admin\product\listproduct.tpl.html' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.1',
-  'unifunc' => 'content_67545efd5bdad9_24607258',
+  'unifunc' => 'content_675aac0bae0871_62740898',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0a1edec0c132f9ca51e0de3738043881765516d0' => 
     array (
       0 => 'templates\\admin\\product\\listproduct.tpl.html',
-      1 => 1733573849,
+      1 => 1733995458,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_67545efd5bdad9_24607258 (\Smarty\Template $_smarty_tpl) {
+function content_675aac0bae0871_62740898 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates\\admin\\product';
 ?><!DOCTYPE html>
 <html lang="vi">
@@ -341,18 +341,24 @@ $foreach3DoElse = false;
 ?>
                 <tr>
                     <td>
+                        <?php $_smarty_tpl->assign('i', 0, false, NULL);?> <!-- Khởi tạo biến đếm -->
                         <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('product_images')[$_smarty_tpl->getValue('product')->getId()], 'image');
 $foreach4DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('image')->value) {
 $foreach4DoElse = false;
 ?>
+                            <?php if ($_smarty_tpl->getValue('i') == 1) {?>
+                                <?php break 1;?>
+                            <?php }?>
                             <img style="height: 100px; width: 100px; border: 2px solid #000; border-radius: 15px;" src="uploads/<?php echo $_smarty_tpl->getValue('image')->getUrl();?>
 " alt="Product Image">
+                            <?php $_smarty_tpl->assign('i', $_smarty_tpl->getValue('i')+1, false, NULL);?> <!-- Tăng biến đếm -->
                         <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     </td>
+                    
                     <td><?php echo $_smarty_tpl->getValue('product')->getName();?>
 </td>
                     <td><?php echo $_smarty_tpl->getValue('product')->getDescription();?>

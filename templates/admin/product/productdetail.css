@@ -1,0 +1,202 @@
+
+/* Các slide và hình ảnh nhỏ dưới slider */
+.product-images {
+position: relative;
+}
+
+.slide img {
+width: 100%;
+height: auto;
+}
+
+.thumbnail-images {
+display: flex;
+justify-content: center;
+margin-top: 10px;
+}
+
+.thumbnail {
+margin: 0 10px;
+cursor: pointer;
+}
+
+.thumbnail img {
+width: 60px;
+height: auto;
+opacity: 0.7;
+}
+
+.thumbnail:hover img {
+opacity: 1;
+}
+
+/* Style cho các nút carousel */
+.carousel-buttons {
+position: absolute;
+top: 50%;
+width: 100%;
+display: flex;
+justify-content: space-between;
+transform: translateY(-50%);
+}
+
+.carousel-buttons i {
+font-size: 30px;
+color: white;
+cursor: pointer;
+}
+
+/* Các buttons mua hàng và thêm vào giỏ */
+.button-group {
+margin-top: 20px;
+}
+
+.button {
+padding: 10px 20px;
+color: white;
+text-decoration: none;
+border-radius: 5px;
+margin-right: 10px;
+}
+
+.button:hover {
+opacity: 0.8;
+}
+
+.button-group {
+display: flex; /* Để các phần tử con nằm ngang */
+gap: 10px; /* Khoảng cách giữa các thẻ a */
+}
+
+.button {
+display: inline-block; /* Để thẻ a có thể kích thước như một button */
+width: 48%; /* Kích thước của mỗi thẻ a chiếm 48% chiều rộng của thẻ cha */
+padding: 10px 20px; /* Padding cho thẻ a */
+text-decoration: none; /* Bỏ gạch dưới */
+color: white; /* Màu chữ trắng */
+text-align: center; /* Căn giữa chữ */
+border-radius: 5px; /* Bo tròn góc */
+font-size: 16px; /* Cỡ chữ */
+box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+}
+
+.button:hover {
+opacity: 0.9; /* Hiệu ứng hover cho các thẻ a */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+.container:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.product-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.product-images {
+    width: 35%;
+    text-align: center;
+}
+.product-info {
+    width: 50%;
+}
+.product-images img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: transform 0.3s;
+}
+.product-images img:hover {
+    transform: scale(1.05);
+}
+.product-info h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+.product-info p {
+    font-size: 18px;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+.product-info .options {
+    margin-bottom: 15px;
+}
+.product-info .option-group {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.product-info .option-group p {
+    margin-right: 10px;
+    font-weight: bold;
+}
+.product-info .option {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.product-info .option.selected, .product-info .option:hover {
+    background-color: #28a745;
+    color: #fff;
+    border-color: #28a745;
+}
+.product-info .button-group {
+    display: flex;
+    justify-content: space-between;
+}
+.product-info button {
+    width: 48%;
+    padding: 12px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+.product-info button:hover {
+    background-color: #218838;
+}
+.product-images .slide {
+    display: none;
+}
+.product-images .active-slide {
+    display: block;
+}
+.carousel-buttons {
+    text-align: center;
+    margin-top: 10px;
+}
+.carousel-buttons i {
+    cursor: pointer;
+    font-size: 24px;
+    margin: 0 15px;
+    color: #333;
+    transition: color 0.3s;
+}
+.carousel-buttons i:hover {
+    color: #28a745;
+}

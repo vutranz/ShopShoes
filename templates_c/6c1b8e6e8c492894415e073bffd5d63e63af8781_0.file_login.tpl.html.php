@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.1, created on 2024-12-06 23:36:17
+/* Smarty version 5.4.1, created on 2024-12-12 09:46:13
   from 'file:./login/login.tpl.html' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.1',
-  'unifunc' => 'content_67537c61be20a4_68940219',
+  'unifunc' => 'content_675aa2d5f08ca8_35554148',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '6c1b8e6e8c492894415e073bffd5d63e63af8781' => 
     array (
       0 => './login/login.tpl.html',
-      1 => 1733127997,
+      1 => 1733993136,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_67537c61be20a4_68940219 (\Smarty\Template $_smarty_tpl) {
+function content_675aa2d5f08ca8_35554148 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates\\login';
 ?><!DOCTYPE html>
 <html lang="vi">

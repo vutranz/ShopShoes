@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 5.4.1, created on 2024-12-07 10:35:32
+/* Smarty version 5.4.1, created on 2024-12-12 23:31:21
   from 'file:templates\admin\category\listcategory.tpl.html' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.1',
-  'unifunc' => 'content_675416e4d09423_25247827',
+  'unifunc' => 'content_675b64395fa687_12481240',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_675416e4d09423_25247827 (\Smarty\Template $_smarty_tpl) {
+function content_675b64395fa687_12481240 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates\\admin\\category';
 ?><!DOCTYPE html>
 <html lang="vi">

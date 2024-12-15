@@ -5,162 +5,341 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop Giày</title>
-    <link rel="stylesheet" href="./templates/style.css">
+    <!-- <link rel="stylesheet" href="./templates/style.css"> -->
     <link rel="icon" href="shoe-icon.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-    <style>
-        /* Ô tìm kiếm */
+ <style>
+    
+/* Ô tìm kiếm */
 .search-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+display: flex;
+align-items: center;
+gap: 10px;
 }
 
 .search-box input {
-    padding: 8px 12px;
-    font-size: 14px;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: border 0.3s ease;
+padding: 8px 12px;
+font-size: 14px;
+width: 300px;
+border: 1px solid #ccc;
+border-radius: 5px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+transition: border 0.3s ease;
 }
 
 .search-box input:focus {
-    border-color: #4CAF50;
-    outline: none;
+border-color: #4CAF50;
+outline: none;
 }
 
 .search-box button {
-    padding: 8px 12px;
-    font-size: 14px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+padding: 8px 12px;
+font-size: 14px;
+background-color: #4CAF50;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s ease;
 }
 
 .search-box button:hover {
-    background-color: #45a049;
+background-color: #45a049;
 }
 
 /* Bộ lọc sản phẩm */
 .filters {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+display: flex;
+gap: 15px;
+flex-wrap: wrap;
+justify-content: flex-start;
 }
 
 .filters select {
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f8f8f8;
-    cursor: pointer;
-    transition: border 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+padding: 8px 12px;
+font-size: 14px;
+border: 1px solid #ccc;
+border-radius: 5px;
+background-color: #f8f8f8;
+cursor: pointer;
+transition: border 0.3s ease;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .filters select:hover {
-    border-color: #4CAF50;
+border-color: #4CAF50;
 }
 
 .filters select:focus {
-    border-color: #4CAF50;
-    outline: none;
+border-color: #4CAF50;
+outline: none;
 }
-        
-        /* Popup Styles */
+
+/* Popup Styles */
 .popup {
-    display: none; /* Ẩn popup mặc định */
-    position: fixed; /* Đặt vị trí cố định */
-    top: 50%; /* Căn giữa theo chiều dọc */
-    left: 50%; /* Căn giữa theo chiều ngang */
-    transform: translate(-50%, -50%); /* Đảm bảo căn chính xác */
-    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
-    z-index: 9999; /* Đảm bảo popup nằm trên các phần tử khác */
-    width: 80%; /* Kích thước popup */
-    max-width: 500px; /* Đảm bảo kích thước tối đa */
-    padding: 20px;
-    border-radius: 8px;
+display: none; /* Ẩn popup mặc định */
+position: fixed; /* Đặt vị trí cố định */
+top: 50%; /* Căn giữa theo chiều dọc */
+left: 50%; /* Căn giữa theo chiều ngang */
+transform: translate(-50%, -50%); /* Đảm bảo căn chính xác */
+background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+z-index: 9999; /* Đảm bảo popup nằm trên các phần tử khác */
+width: 80%; /* Kích thước popup */
+max-width: 500px; /* Đảm bảo kích thước tối đa */
+padding: 20px;
+border-radius: 8px;
 }
 
 .popup-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
+background-color: #fff;
+padding: 20px;
+border-radius: 8px;
+text-align: center;
 }
 
 .popup img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
+max-width: 100%;
+height: auto;
+border-radius: 8px;
 }
 
 .product-buttons {
-    margin-top: 20px;
+margin-top: 20px;
 }
 
 .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 30px;
-    color: #000;
-    cursor: pointer;
+position: absolute;
+top: 10px;
+right: 10px;
+font-size: 30px;
+color: #000;
+cursor: pointer;
 }
 
 /* phân trang*/
 
 .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: 20px;
 }
 
 /* Style for pagination links */
 .pagination a {
-    text-decoration: none;
-    color: #007bff;
-    padding: 8px 16px;
-    margin: 0 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: background-color 0.3s, color 0.3s;
+text-decoration: none;
+color: #007bff;
+padding: 8px 16px;
+margin: 0 5px;
+border: 1px solid #ccc;
+border-radius: 4px;
+font-size: 14px;
+transition: background-color 0.3s, color 0.3s;
 }
 
 /* Style for active page link */
 .pagination a {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #333;
-    transition: background-color 0.3s;
+padding: 8px 12px;
+border: 1px solid #ccc;
+border-radius: 5px;
+text-decoration: none;
+color: #333;
+transition: background-color 0.3s;
 }
 
 .pagination a:hover {
-    background-color: #4CAF50;
-    color: white;
+background-color: #4CAF50;
+color: white;
 }
 
 .pagination a.active {
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
-    pointer-events: none;
+background-color: #4CAF50;
+color: white;
+font-weight: bold;
+pointer-events: none;
 }
 
+/* Đặt các sản phẩm trong một hàng với flexbox */
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Các sản phẩm sẽ hiển thị từ trái qua phải */
+    gap: 20px; /* Khoảng cách giữa các sản phẩm */
+}
 
-    </style>
+.product-card {
+    flex: 0 1 calc(25% - 20px); /* Chia đều không gian cho 4 sản phẩm trên một hàng */
+    max-width: calc(25% - 20px); /* Đảm bảo chiều rộng cố định */
+    min-width: calc(25% - 20px); /* Đảm bảo chiều rộng cố định */
+    box-sizing: border-box;
+    margin: 10px 0; /* Chỉnh lại margin để đảm bảo khoảng cách hợp lý */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.product-card img {
+    max-width: 100%;
+    height: auto; /* Đảm bảo ảnh hiển thị đúng tỷ lệ */
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.product-card h3, .product-card p {
+    margin: 0 0 10px;
+}
+
+.product-buttons a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.product-buttons a:hover {
+    background-color: #218838;
+}
+
+/* 
+..... */
+/* CSS cho toàn bộ trang */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+/* Header */
+header {
+    background-color: #333;
+    color: white;
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin: 0 10px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    background-color: #555;
+    border-radius: 5px;
+}
+
+/* Main Content */
+main {
+    margin-top: 80px; /* Để tránh bị che bởi header cố định */
+}
+
+/* Hero Section */
+.hero {
+    background: url('path/to/your/hero-image.jpg') no-repeat center center/cover;
+    height: 400px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 24px;
+}
+
+/* Product Categories */
+.categories .category-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.categories .category-item {
+    flex: 1 1 calc(25% - 20px);
+    background-color: darksalmon;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-sizing: border-box;
+    max-width: calc(25% - 20px);
+    min-width: calc(25% - 20px);
+}
+
+.categories .category-item h3 {
+    margin: 0;
+    color: white;
+}
+
+/* ...... */
+/* CSS cho Footer */
+footer {
+    background-color: #333; /* Màu nền */
+    color: white; /* Màu chữ */
+    padding: 20px 0; /* Khoảng cách trên dưới */
+    text-align: center; /* Căn giữa nội dung */
+    position: relative; /* Vị trí */
+    width: 100%; /* Chiều rộng */
+    bottom: 0; /* Căn dưới cùng */
+}
+
+footer .container {
+    max-width: 1200px; /* Chiều rộng tối đa */
+    margin: 0 auto; /* Căn giữa container */
+}
+
+footer p {
+    margin: 0; /* Xóa khoảng cách */
+    font-size: 14px; /* Kích thước chữ */
+}
+
+h2{
+    text-align: center;
+}
+
+ </style>
 </head>
 
 <body>
@@ -215,207 +394,203 @@
             </div>
         </section>
 
-        <!-- Product Categories -->
-        <section class="categories" id="categories">
-            <div class="container">
-                <h2>Danh Mục Sản Phẩm</h2>
-                <div class="category-list">
-                    {foreach from=$category item=category}
-                    <div style="background-color: darksalmon;" class="category-item">
-                        <h3>{$category->getName()}</h3>
-                    </div>
+       <!-- Product Categories -->
+<section class="categories" id="categories">
+    <div class="container">
+        <h2 >Danh Mục Sản Phẩm</h2>
+        <div class="category-list">
+            {foreach from=$category item=category}
+            <div style="background-color: darksalmon;" class="category-item">
+                <h3>{$category->getName()}</h3>
+            </div>
+            {/foreach}
+        </div>
+    </div>
+</section>
+
+<!-- Bộ lọc -->
+<div style="margin-left: 500px;" class="search-and-filter">
+    <!-- Ô tìm kiếm -->
+    <div class="search-box" style="padding-left: 100px; padding-bottom: 50px;padding-top: 50px;">
+        <form action="index.php?action=index" method="GET">
+            <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." value="{$search}">
+            <button type="submit">Tìm kiếm</button>
+        </form>
+    </div>
+
+    <!-- Bộ lọc sản phẩm -->
+    <div class="filters">
+        <form action="index.php?action=index" method="GET">
+            <select name="category" id="category">
+                <option value="">Chọn danh mục</option>
+                {foreach from=$category item=category}
+                    <option value="{$category->getId()}" {if $category->getId() == $categoryFilter}selected{/if}>{$category->getName()}</option>
+                {/foreach}
+            </select>
+
+            <select name="color" id="color">
+                <option value="">Chọn màu sắc</option>
+                {foreach from=$color item=color}
+                    <option value="{$color->getId()}" {if $color->getId() == $colorFilter}selected{/if}>{$color->getColorName()}</option>
+                {/foreach}
+            </select>
+
+            <select name="size" id="size">
+                <option value="">Chọn kích thước</option>
+                {foreach from=$size item=size}
+                    <option value="{$size->getId()}" {if $size->getId() == $sizeFilter}selected{/if}>{$size->getSizeName()}</option>
+                {/foreach}
+            </select>
+
+            <select name="sort" id="sort">
+                <option value="">Sắp xếp</option>
+                <option value="0" {if $sortOrder == 0}selected{/if}>Theo giá giảm dần</option>
+                <option value="1" {if $sortOrder == 1}selected{/if}>Theo giá tăng dần</option>
+                <!-- <option value="2" {if $sortOrder == 2}selected{/if}>Sản phẩm mới nhất</option>
+                <option value="3" {if $sortOrder == 3}selected{/if}>Sản phẩm bán chạy</option> -->
+            </select>
+
+            <button style="
+            background-color: #45a049; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            border-radius: 5px; 
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        ">
+            Lọc
+        </button>
+        
+        </form>
+    </div>
+</div>
+
+<!-- Featured Products -->
+<section class="featured-products" id="product-Featured">
+    <div class="container">
+        <h2>Sản Phẩm Của Chúng tôi</h2>
+        <div class="products">
+            {foreach from=$products item=product}
+            <div class="product-card">
+                <td>
+                    {assign var="i" value=0} <!-- Khởi tạo biến đếm -->
+                    {foreach from=$product_images[$product->getId()] item=image}
+                    {if $i == 1}
+                        {break}
+                    {/if}
+                    <img src="uploads/{$image->getUrl()}" alt="Giày 1">
+                    {assign var="i" value=$i+1} <!-- Tăng biến đếm -->
                     {/foreach}
+                </td>
+                <h3>{$product->getName()}</h3>
+                <p>Giá: {number_format($product->getPrice(), 0, '.', '.')} VND</p>
+                <div class="product-buttons">
+                    {if $product != null && $product->getId() != null}
+                        <a style="background-color: grey;" href="index.php?action=productdetail&id={$product->getId()}" class="btn-buy-now">Xem chi tiết</a>
+                    {else}
+                        <p>Sản phẩm không hợp lệ hoặc không có ID.</p>
+                    {/if}
                 </div>
-            </div>
-        </section>
-
-
-        <!-- bộ lộc -->
-        <div style="margin-left: 500px;" class="search-and-filter" >
-            <!-- Ô tìm kiếm -->
-            <div class="search-box" style="padding-left: 100px; padding-bottom: 50px;" >
-                <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." value="">
-                <button type="submit">Tìm kiếm</button>
-            </div>
-        
-            <!-- Bộ lọc sản phẩm -->
-            <div class="filters">
-    
-    
-                <select name="category" id="category">
-                    <option value="">Chọn danh mục</option>
-                    {foreach from=$category item=category}
-                        <option value="{$category->getId()}">{$category->getName()}</option>
-                    {/foreach}
-                </select>
-        
-                <select name="color" id="color">
-                    <option value="">Chọn màu sắc</option>
-                    <!-- Dữ liệu được tạo động sẽ ở đây -->
-                    {foreach from=$color item=color}
-                        <option value="{$color->getId()}">{$color->getColorName()}</option>
-                    {/foreach}
-                </select>
-        
-                <select name="size" id="size">
-                    <option value="">Chọn kích thước</option>
-                    <!-- Dữ liệu được tạo động sẽ ở đây -->
-                    {foreach from=$size item=size}
-                        <option value="{$size->getId()}">{$size->getSizeName()}</option>
-                    {/foreach}
-                </select>
-    
-                <select name="sort" id="sort">
-                    <option value="">Sắp xếp</option>
-                    <option value="0">Theo giá giảm dần</option>
-                    <option value="1">Theo giá tăng dần</option>
-                    <option value="2">Sản phẩm mới nhất</option>
-                    <option value="3">Sản phẩm bán chạy</option>
-                </select>
                 
             </div>
+            {/foreach}
         </div>
+    </div>
 
-        <!-- Featured Products -->
-        <section class="featured-products" id="product-Featured">
-            <div class="container">
-                <h2>Sản Phẩm Của Chúng tôi</h2>
-                <div class="products">
-                    {foreach from=$products item=products}
-                        <div class="product-card">
-                            {foreach from=$product_images[$products->getId()] item=image}
-                            <img src="uploads/{$image->getUrl()}" alt="Giày 1">
-                            {/foreach}
-                            <h3>{$products->getName()}</h3>
-                            <p>Giá: {number_format($products->getPrice(), 0, '.', '.')} VND</p>
-                            <div class="product-buttons">
-                                <a href="#" class="btn-buy-now">Mua Ngay</a>
-                                <a href="#" class="btn-add-to-cart">Thêm Vào Giỏ</a>
-                            </div>
-                        </div>
-                    {/foreach}
-                </div>
-            </div>
-        
-            <!-- Phân trang -->
-            <div class="pagination" id="pagination">
-                {if $currentPage > 1}
-                    <a href="index.php?action=index&page={$currentPage - 1}" class="prev">Trước</a>
-                {/if}
-        
-                {for $i = 1 to $totalPages}
-                    <a href="index.php?action=index&page={$i}" 
-                    class="page-link {if $i == $currentPage} active {/if}">
-                    {$i}
-                    </a>
-                {/for}
-        
-                {if $currentPage < $totalPages}
-                    <a href="index.php?action=index&page={$currentPage + 1}" class="next">Tiếp</a>
-                {/if}
-            </div>
-        </section>
+    <!-- Phân trang -->
+    <div class="pagination" id="pagination">
+        {if $currentPage > 1}
+            <a href="index.php?action=index&page={$currentPage - 1}" class="prev">Trước</a>
+        {/if}
+
+        {for $i = 1 to $totalPages}
+            <a href="index.php?action=index&page={$i}" 
+            class="page-link {if $i == $currentPage} active {/if}">
+            {$i}
+            </a>
+        {/for}
+
+        {if $currentPage < $totalPages}
+            <a href="index.php?action=index&page={$currentPage + 1}" class="next">Tiếp</a>
+        {/if}
+    </div>
+</section>
+
         
        
         
 
-        <!-- New Products -->
-        <section class="new-products">
-            <div class="container">
-                <h2>Sản Phẩm Mới Nhất</h2>
-                <div class="products">
-                    <!-- Product Card -->
-                    <div class="product-card">
-                        <img src="./templates/image/giaymwc.jpg" alt="Giày 1">
-                        <h3>Giày Sneaker</h3>
-                        <p>Giá: 1,200,000 VND</p>
-                        <div class="product-buttons">
-                            <a href="#" class="btn-buy-now">Mua Ngay</a>
-                            <a href="#" class="btn-add-to-cart">Thêm Vào Giỏ</a>
-                        </div>
+       <!-- New Products -->
+<section class="new-products">
+    <div class="container">
+        <h2>Sản Phẩm Mới Nhất</h2>
+        <div class="products">
+            {foreach from=$product_new item=product_new}
+                <div class="product-card">
+                    <td>
+                        {assign var="product_id" value=$product_new->getId()}
+                        {if isset($product_images_new[$product_id]) && count($product_images_new[$product_id]) > 0}
+                            {assign var="i" value=0} <!-- Khởi tạo biến đếm -->
+                            {foreach from=$product_images_new[$product_id] item=image}
+                                {if $i == 1} {break} {/if} <!-- Dừng vòng lặp khi i = 1 -->
+                                <img src="uploads/{$image->getUrl()}" alt="Giày 1">
+                                {assign var="i" value=$i+1} <!-- Tăng biến đếm -->
+                            {/foreach}
+                        {else}
+                            <p>Không có hình ảnh cho sản phẩm này.</p>
+                        {/if}
+                    </td>
+                    <h3>{$product_new->getName()}</h3>
+                    <p>Giá: {number_format($product_new->getPrice(), 0, '.', '.')} VND</p>
+                    <div class="product-buttons">
+                        {if $product != null && $product->getId() != null}
+                            <a style="background-color: grey;" href="index.php?action=productdetail&id={$product->getId()}" class="btn-buy-now">Xem chi tiết</a>
+                        {else}
+                            <p>Sản phẩm không hợp lệ hoặc không có ID.</p>
+                        {/if}
                     </div>
-                    <div class="product-card">
-                        <img src="./templates/image/giaymwc.jpg" alt="Giày 2">
-                        <h3>Giày Thể Thao</h3>
-                        <p>Giá: 1,500,000 VND</p>
-                        <div class="product-buttons">
-                            <a href="#" class="btn-buy-now">Mua Ngay</a>
-                            <a href="#" class="btn-add-to-cart">Thêm Vào Giỏ</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <img src="./templates/image/giaymwc.jpg" alt="Giày 3">
-                        <h3>Giày Lười</h3>
-                        <p>Giá: 800,000 VND</p>
-                        <div class="product-buttons">
-                            <a href="#" class="btn-buy-now">Mua Ngay</a>
-                            <a href="#" class="btn-add-to-cart">Thêm Vào Giỏ</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <img src="./templates/image/giaymwc.jpg" alt="Giày 4">
-                        <h3>Giày Boot</h3>
-                        <p>Giá: 1,800,000 VND</p>
-                        <div class="product-buttons">
-                            <a href="#" class="btn-buy-now">Mua Ngay</a>
-                            <a href="#" class="btn-add-to-cart">Thêm Vào Giỏ</a>
-                        </div>
-                    </div>
+                    
                 </div>
-            </div>
-        </section>
+                 
+            {/foreach}
+        </div>
+    </div>
+</section>
+
 
         <!-- Popular Products -->
-        <section class="popular-products">
-            <div class="container">
-                <h2>Sản Phẩm Phổ Biến</h2>
-                <div class="products">
-                    <!-- Product Card -->
-                    <div class="product-card">
-                        <img src="./templates/image/giaymwc.jpg" alt="Giày 1">
-                        <h3>Giày Sneaker</h3>
-                        <p>Giá: 1,200,000 VND</p>
-                        <div class="product-buttons">
-                            <a href="#" class="btn-buy-now">Mua Ngay</a>
-                            <a href="#" class="btn-add-to-cart">Thêm Vào Giỏ</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <img src="./templates/image/giaymwc.jpg" alt="Giày 2">
-                        <h3>Giày Thể Thao</h3>
-                        <p>Giá: 1,500,000 VND</p>
-                        <div class="product-buttons">
-                            <a href="#" class="btn-buy-now">Mua Ngay</a>
-                            <a href="#" class="btn-add-to-cart">Thêm Vào Giỏ</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <img src="./templates/image/giaymwc.jpg" alt="Giày 3">
-                        <h3>Giày Lười</h3>
-                        <p>Giá: 800,000 VND</p>
-                        <div class="product-buttons">
-                            <a href="#" class="btn-buy-now">Mua Ngay</a>
-                            <a href="#" class="btn-add-to-cart">Thêm Vào Giỏ</a>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <img src="./templates/image/giaymwc.jpg" alt="Giày 4">
-                        <h3>Giày Boot</h3>
-                        <p>Giá: 1,800,000 VND</p>
-                        <div class="product-buttons">
-                            <a href="#" class="btn-buy-now">Mua Ngay</a>
-                            <a href="#" class="btn-add-to-cart">Thêm Vào Giỏ</a>
+            <!-- <section class="popular-products">
+                <div class="container">
+                    <h2>Sản Phẩm Phổ Biến</h2>
+                    <div class="products">
+                    
+                        <div class="product-card">
+                            <img src="./templates/image/giaymwc.jpg" alt="Giày 1">
+                            <h3>Giày Sneaker</h3>
+                            <p>Giá: 1,200,000 VND</p>
+                            <div class="product-buttons">
+                                <a style="background-color: grey;" href="#" class="btn-buy-now">Xem chi tiết</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section> -->
 
         <div class="popup" id="product-popup">
             <div class="popup-content">
                 <img id="popup-image" src="" alt="Product Image">
                 <h3 id="popup-name"></h3>
                 <p id="popup-price"></p>
+                
+                <!-- New Quantity Section -->
+                <div style="margin-left: 120px;" class="product-quantity">
+                    <label for="popup-quantity">Số lượng:</label>
+                    <input type="number" id="popup-quantity" value="1" min="1">
+                </div>
+                
                 <div class="product-buttons">
                     <a href="#" class="btn-buy-now">Mua Ngay</a>
                     <a href="#" class="btn-add-to-cart">Thêm Vào Giỏ</a>
@@ -423,6 +598,7 @@
                 <span class="close" onclick="closePopup()">&times;</span>
             </div>
         </div>
+        
     </main>
 
     <footer>
@@ -432,26 +608,38 @@
     </footer>
 
     <script>
-        function showPopup(name, price, image) {
-            document.getElementById('popup-name').innerText = name;
-            document.getElementById('popup-price').innerText = price;
-            document.getElementById('popup-image').src = image;
-            document.getElementById('product-popup').style.display = 'block';
-        }
+        // Hàm hiển thị popup
+function showPopup(name, price, image) {
+    // Cập nhật thông tin vào popup
+    document.getElementById('popup-name').innerText = name;
+    document.getElementById('popup-price').innerText = price;
+    document.getElementById('popup-image').src = image;
+    
+    // Hiển thị popup
+    document.getElementById('product-popup').style.display = 'flex';
+}
 
-        function closePopup() {
-            document.getElementById('product-popup').style.display = 'none';
-        }
+// Hàm đóng popup
+function closePopup() {
+    document.getElementById('product-popup').style.display = 'none';
+}
 
-        // Add event listeners for product clicks
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const name = card.querySelector('h3').innerText;
-                const price = card.querySelector('p').innerText;
-                const image = card.querySelector('img').src;
-                showPopup(name, price, image);
-            });
-        });
+// Thêm sự kiện click vào tất cả hình ảnh sản phẩm để hiển thị popup
+document.querySelectorAll('.product-card img').forEach(img => {
+    img.addEventListener('click', (event) => {
+        // Lấy thông tin sản phẩm từ thuộc tính của hình ảnh
+        const name = event.target.getAttribute('data-name');
+        const price = event.target.getAttribute('data-price');
+        const image = event.target.src;
+
+        // Hiển thị popup
+        showPopup(name, price, image);
+    });
+});
+
+// Thêm sự kiện đóng popup khi người dùng nhấn vào dấu "X"
+document.querySelector('.popup .close').addEventListener('click', closePopup);
+
 
 
         

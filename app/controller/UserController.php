@@ -3,6 +3,8 @@
 
 namespace app\controller;
 
+session_start();
+error_log("Session hiện tại: " . print_r($_SESSION, true));
 require_once 'E:/xampp/htdocs/ShopShoes/config/SmartyConfig.php';
 require_once 'E:/xampp/htdocs/ShopShoes/app/service/User/UserService.php';
 require_once 'E:/xampp/htdocs/ShopShoes/app/model/User.php';
@@ -38,6 +40,11 @@ class UserController{
     private $sizeService;
 
     public function __construct() {
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
         $this->smarty = SmartyConfig::getSmarty();
         $this->usersService = new UserService();
         $this->productService = new ProductService();
@@ -118,8 +125,11 @@ class UserController{
     }
 
     public function loginController() {
-        session_start();
         
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start(); // Khởi tạo session nếu chưa có
+        }
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -134,24 +144,26 @@ class UserController{
             $user = $this->usersService->getUserByEmail($email);
     
             if ($user) {
-                if (password_verify($password, $user['password'])) {
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['user_name'] = $user['full_name'];
-                    $_SESSION['email'] = $user['email'];
+                if (password_verify($password, $user->getPassword())) {
+                    $_SESSION['user_id'] = $user->getId();
+                    $_SESSION['user_name'] = $user->getFullName();
+                    $_SESSION['email'] = $user->getEmail();
                     $_SESSION['is_logged_in'] = true;
     
-                    $this->smarty->assign('is_logged_in', $_SESSION['is_logged_in']);
+                    $this->smarty->assign('is_logged_in',true);
                     $this->smarty->assign('user_name', $_SESSION['user_name']);
     
                  
-                    $role = $this->usersService->getUserRoleByid($user['id']);
+                    $role = $this->usersService->getUserRoleByid($user->getId());
 
                     if ($role == 'admin') {
-                        
-                        $this->showDasboard();
+                        header("Location: index.php?action=dashboard");
+                        exit();
+                        //$this->showDasboard();
                     } else {
-                        $this->showindex();
-                        
+                        //$this->showindex();
+                        header("Location: index.php?action=index");
+                        exit();
                     }
 
                     
@@ -189,49 +201,83 @@ class UserController{
     }
 
     public function showDasboard() {
+
+        
+        if (!isset($_SESSION['is_logged_in']) || !$_SESSION['is_logged_in']) {
+            header("Location: index.php?action=login");
+            exit();
+        }
+
         $totalProduct = $this->productService->getCountProducts(); 
         $totalUser = $this->usersService->getCountUsers();
 
         $this->smarty->assign('totalUser', $totalUser);
         $this->smarty->assign('totalProduct', $totalProduct);
+       
+        $this->smarty->assign('user_name', $_SESSION['user_name']);
+        $this->smarty->assign('is_logged_in', $_SESSION['is_logged_in']);
+
         $this->smarty->display('dasboard.tpl.html');
     }
 
-    public function showindex() {
+    
+    public function showIndex() {
+        $userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : null;
+        $isLoggedIn = isset($_SESSION['is_logged_in']) ? $_SESSION['is_logged_in'] : false;
+    
+        $currentPage = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        $itemsPerPage = 8;
+    
+        $search = isset($_GET['search']) ? $_GET['search'] : '';
+        $categoryFilter = isset($_GET['category']) ? $_GET['category'] : '';
+        $colorFilter = isset($_GET['color']) ? $_GET['color'] : '';
+        $sizeFilter = isset($_GET['size']) ? $_GET['size'] : '';
+        $sortOrder = isset($_GET['sort']) ? $_GET['sort'] : '';
+    
+        $products = $this->productService->searchProducts($search, $categoryFilter, $colorFilter, $sizeFilter, $sortOrder);
         
-        $category = $this->categoryService->getAllCategory();
+        $productCount = count($products);
+        $totalPages = ceil($productCount / $itemsPerPage);
+    
+        $offset = ($currentPage - 1) * $itemsPerPage;
+        $products = array_slice($products, $offset, $itemsPerPage);
+    
         $color = $this->colorService->getAllColors();
         $size = $this->sizeService->getAllSizes();
-
-        $currentPage = isset($_GET['page']) ? intval($_GET['page']) : 1;
-        $itemsPerPage = 8; 
-    
-        $allProducts = $this->productService->getAllProduct();
-        $totalProducts = count($allProducts);
-        $totalPages = ceil($totalProducts / $itemsPerPage);
-    
-       
-        $offset = ($currentPage - 1) * $itemsPerPage;
-        $products = array_slice($allProducts, $offset, $itemsPerPage);
-    
-
-        
+        $category = $this->categoryService->getAllCategory();
     
         $product_images = [];
         foreach ($products as $product) {
             $product_images[$product->getId()] = $this->product_imageService->getImagesByProductId($product->getId());
         }
-
-        $this->smarty->assign('color', $color);
-        $this->smarty->assign('size', $size);
-        $this->smarty->assign('category', $category); 
+    
+        $product_new = $this->productService->getProductsnews();
+        $product_images_new = [];
+        foreach ($product_new as $product) { 
+            $product_images_new[$product->getId()] = $this->product_imageService->getImagesByProductId($product->getId());
+        }
+    
+        $this->smarty->assign('user_name', $userName);
+        $this->smarty->assign('is_logged_in', $isLoggedIn);
         $this->smarty->assign('products', $products);
         $this->smarty->assign('product_images', $product_images);
         $this->smarty->assign('category', $category);
+        $this->smarty->assign('color', $color);
+        $this->smarty->assign('size', $size);
         $this->smarty->assign('currentPage', $currentPage);
         $this->smarty->assign('totalPages', $totalPages);
-        $this->smarty->display('index.tpl.html');
+        $this->smarty->assign('search', $search);
+        $this->smarty->assign('categoryFilter', $categoryFilter);
+        $this->smarty->assign('colorFilter', $colorFilter);
+        $this->smarty->assign('sizeFilter', $sizeFilter);
+        $this->smarty->assign('sortOrder', $sortOrder);
+        $this->smarty->assign('product_new', $product_new);
+        $this->smarty->assign('product_images_new', $product_images_new);
+    
+        $this->smarty->display('templates/index.tpl.html');
     }
+    
+
     
 }
 ?>

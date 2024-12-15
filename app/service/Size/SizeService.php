@@ -56,6 +56,18 @@ class SizeService implements SizeInterface{
     
         return $sizes; 
     }
+
+    public function getIdByNameSize($name){
+        $query = "SELECT `id` FROM `sizes` WHERE `size_name` = :name AND `is_active` = 1";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':name', $name, \PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        if ($result) {
+            return $result['id'];
+        }
+        return null;
+    }
     
 }
 ?>
