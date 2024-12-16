@@ -23,6 +23,11 @@ class CartService implements CartInterface{
         $this->connection = $connectiondb->getConnection();
         $this->userService = new UserService();
     }
+
+    public function getLastInsertedId() {
+        return $this->connection->lastInsertId(); 
+    }
+    
     public function addCart(Cart $cart) {
         $user_id = $cart->getUserId()->getId();  
         $create_at = $cart->getCreateAt();
@@ -41,16 +46,17 @@ class CartService implements CartInterface{
 
     public function getCartById($id) {
        
-        $query = "* FROM carts WHERE id = $id";
+        $query = "select * FROM carts WHERE id = $id";
 
-        $stmt = $connection->prepare($query);
+        $stmt = $this->connection->prepare($query);
       
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if ($result) {
-            return new Cart($row['id'], 
-             $user_id = $this->userService->getUserById($result['user_id']), 
+            return new Cart(
+            $result['id'], 
+            $user_id = $this->userService->getUserById($result['user_id']), 
             $result['create_at'], 
             $result['is_active']);
         }

@@ -341,12 +341,16 @@ class ProductController {
 
     public function buyProductController()
     {
-        $id = $_GET['id'];
+        $name = $_GET['name'] ?? 'Sản phẩm A';
+        $size = $_GET['size'] ?? '37';
+        $color = $_GET['color'] ?? 'Đỏ';
         
-       
+        
         if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
            
-            echo "mua hàng thành công";
+           echo $name;
+            echo $size;
+            echo $color;
         } else {
             
             echo "<div class='error-message'>Bạn chưa đăng nhập. Bạn có muốn <a href='index.php?action=FormLogin'>đăng nhập</a> để mua hàng không?</div>";
@@ -373,7 +377,7 @@ class ProductController {
             echo json_encode([
                 'status' => 'success',
                 'name' => $name,
-                'price' => $product->getPrice(),
+                'price' => number_format($product->getPrice(), 0, '.', '.'),
                 'stock' => $product->getStock()
             ]);
         } else {

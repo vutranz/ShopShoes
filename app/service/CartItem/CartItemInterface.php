@@ -1,8 +1,9 @@
 <?php
 namespace app\service\CartItem;
 
+require_once 'E:\xampp\htdocs\ShopShoes\app\model\CartItem.php';
 
-
+use app\model\CartItem;
 interface CartItemInterface {
 
     public function addCartItem(CartItem $cartItem);
@@ -11,6 +12,6 @@ interface CartItemInterface {
 
     // public function getCartItemsByCartId($cart_id);
 
-    // public function removeCartItem($id);
+    public function removeCartItem($id);
 }
 ?>

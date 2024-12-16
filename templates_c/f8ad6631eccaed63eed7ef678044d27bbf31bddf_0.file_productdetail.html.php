@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.1, created on 2024-12-14 23:02:05
+/* Smarty version 5.4.1, created on 2024-12-16 07:41:08
   from 'file:templates/admin/product/productdetail.html' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.1',
-  'unifunc' => 'content_675e005dbcb556_59677737',
+  'unifunc' => 'content_675fcb849c6382_88992512',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f8ad6631eccaed63eed7ef678044d27bbf31bddf' => 
     array (
       0 => 'templates/admin/product/productdetail.html',
-      1 => 1734213724,
+      1 => 1734331267,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_675e005dbcb556_59677737 (\Smarty\Template $_smarty_tpl) {
+function content_675fcb849c6382_88992512 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates\\admin\\product';
 ?>
 <!DOCTYPE html>
@@ -130,6 +130,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             </div>
             <div class="button-group">
                 <a href="index.php?action=buyProduct&id=<?php echo $_smarty_tpl->getValue('product')->getId();?>
+&name=<?php echo $_smarty_tpl->getValue('product')->getName();?>
 " class="button" style="background-color: green;">Mua ngay</a>
                 <!-- <a href="index.php?action=addCartProduct&id=<?php echo $_smarty_tpl->getValue('product')->getId();?>
 " class="button" style="background-color: red;">Thêm vào giỏ hàng</a> -->
@@ -154,6 +155,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
 <?php echo '<script'; ?>
 >
+
+    
     let slideIndex = 0;
     const slides = document.querySelectorAll('.slide');
 
@@ -232,7 +235,7 @@ window.onload = function() {
         // Nếu chưa có size và color, hiển thị mặc định
         document.getElementById("product-name").innerText = "Sản phẩm z";
         document.getElementById("product-size").innerText = "<?php ob_start();
-echo $_smarty_tpl->getValue('product')->getPrice();
+echo $_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('product')->getPrice(),0,'.','.');
 $_prefixVariable2 = ob_get_clean();
 echo $_prefixVariable2;?>
  VND";

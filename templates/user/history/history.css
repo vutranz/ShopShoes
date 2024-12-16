@@ -1,0 +1,142 @@
+/* General layout for the order history section */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+/* Section for order history */
+.order-history {
+    padding: 40px 10%;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    margin: 40px auto;
+    width: 80%;
+}
+
+/* Container for the order list */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Title */
+h2 {
+    text-align: center;
+    font-size: 30px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Group of orders for a specific day */
+.order-day {
+    margin-bottom: 40px;
+}
+
+/* Date label for each group of orders */
+.order-day h3 {
+    font-size: 20px;
+    color: #264653;
+    margin-bottom: 15px;
+    text-align: center;
+    background-color: #e9f5f2;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* List of orders, set display to flex to arrange items horizontally */
+.order-list {
+    display: flex;
+    flex-wrap: nowrap; /* This ensures that items are arranged in a horizontal row */
+    gap: 20px;
+    justify-content: flex-start;
+    overflow-x: auto; /* Allow scrolling horizontally if products overflow */
+}
+
+/* Each order item */
+.order-item {
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 250px; /* Set width to control item size */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.order-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Product details */
+.order-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Product image */
+.order-product-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* Product name and price */
+.order-product-info {
+    text-align: center;
+}
+
+.order-product-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+}
+
+.order-product-price {
+    font-size: 14px;
+    color: #e63946;
+    margin-bottom: 15px;
+}
+
+/* Status badge */
+.order-status {
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+}
+
+.delivered {
+    background-color: #2a9d8f;
+    color: white;
+}
+
+.pending {
+    background-color: #f4a261;
+    color: white;
+}
+
+/* Button to reorder */
+.reorder-btn {
+    background-color: #264653;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+}
+
+.reorder-btn:hover {
+    background-color: #e63946;
+}

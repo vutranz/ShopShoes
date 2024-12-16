@@ -11,6 +11,7 @@ require_once './app/controller/ProductController.php';
 require_once './app/controller/ColorController.php';  
 require_once './app/controller/SizeController.php';  
 require_once './app/controller/CartController.php';  
+require_once './app/controller/OrderController.php';
 
 use Smarty\Smarty;
 use config\Router;
@@ -21,6 +22,7 @@ use app\controller\ProductController;
 use app\controller\ColorController;
 use app\controller\SizeController;
 use app\controller\CartController;
+use app\controller\OrderController;
 
 // Tạo đối tượng Router và controller
 $router = new Router();
@@ -31,6 +33,7 @@ $productController = new ProductController();
 $colorController = new ColorController();
 $sizeController = new SizeController();
 $cartController = new CartController();
+$orderController = new OrderController();
 
 // Đăng ký các route cho các controller
 $router->addRoute('showcategorybyid', [$categoryController, 'getCategoryByIdController']);
@@ -65,6 +68,19 @@ $router->addRoute('getProductInfo', [$productController, 'getProductInfoControll
 
 //router cart
 $router->addRoute('addCartProduct', [$cartController, 'addCartController']);
+$router->addRoute('showcart', [$cartController, 'showCartController']);
+$router->addRoute('deletecart', [$cartController, 'deleteCartItemController']);
+$router->addRoute('buyproductincart', [$cartController, 'buyCartItemController']);
+$router->addRoute('buyallproductincart', [$cartController, 'buySelectedProductsController']);
+
+
+
+//router cart items
+
+
+//router order
+$router->addRoute('placeOrder', [$orderController, 'orderController']);
+
 
 // Routes cho màu sắc và kích thước
 $router->addRoute('getColorByid', [$colorController, 'getColorByIdController']);

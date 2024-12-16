@@ -1,0 +1,167 @@
+/* Basic style */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9fafb;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Container */
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+.page-title {
+    font-size: 32px;
+    text-align: center;
+    color: #4CAF50;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* User Orders */
+.user-order {
+    background-color: #f4f7fb;
+    margin-bottom: 25px;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-order:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.user-name {
+    font-size: 24px;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* User Info */
+.user-info {
+    margin-bottom: 25px;
+}
+
+.user-info p {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Order details */
+.order-details {
+    margin-top: 20px;
+}
+
+.section-title {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Order item - Frame */
+.order-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fafafa;
+    margin-bottom: 20px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.order-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Inner content of order item */
+.order-item-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.product-img img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product-info {
+    flex-grow: 1;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+.product-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.status {
+    font-size: 16px;
+    color: #FF9800;
+    margin-bottom: 12px;
+}
+
+/* Status Toggle Button */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 50px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    border-radius: 50px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #4CAF50;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+

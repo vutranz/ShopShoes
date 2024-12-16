@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giỏ Hàng - Shop Giày</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="http://localhost/ShopShoes/templates/user/cart/cart.css">
 </head>
 <body>
 
@@ -21,7 +21,7 @@
                 </ul>
             </nav>
             <div class="cart-icon">
-                <a href="#"><img src="cart-icon.png" alt="Giỏ Hàng"></a>
+                <a hidden href="#"><img src="cart-icon.png" alt="Giỏ Hàng"></a>
             </div>
         </div>
     </header>
@@ -34,58 +34,66 @@
             <h2>Giỏ Hàng Của Bạn</h2>
             
             <div class="cart-items">
-                <!-- Mỗi sản phẩm trong giỏ hàng -->
-                <div class="cart-item">
-                    <div class="cart-item-select">
-                        <label>
-                            <input type="checkbox" class="item-select" /> 
-                        </label>
-                    </div>
-                    <div class="cart-item-img">
-                        <img src="https://via.placeholder.com/100x100" alt="Giày Thể Thao Nam">
-                    </div>
-                    <div class="cart-item-details">
-                        <h3>Giày Thể Thao Nam</h3>
-                        <p>Size: 39</p>
-                        <p>Màu: Xanh dương</p>
-                    </div>
-                    <div class="cart-item-price">
-                        <p>1,200,000 VND</p>
-                    </div>
-                    <div class="cart-item-quantity">
-                        <input type="number" value="1" min="1" max="10">
-                    </div>
-                    <div class="cart-item-remove">
-                        <button>Xóa</button>
-                        <button>Xóa</button>
-                    </div>
-                </div>
+                {foreach from=$products item=product}
+                    <div class="cart-item">
+                        <div class="cart-item-select">
+                            <label>
+                                <input type="checkbox" class="item-select" data-product-id="{$product->getId()}"/> 
+                            </label>
+                        </div>
 
-                <div class="cart-item">
-                    <div class="cart-item-select">
-                        <label>
-                            <input type="checkbox" class="item-select" /> 
-                        </label>
+                        <div class="cart-item-img"> 
+                            {assign var="i" value=0} <!-- Khởi tạo biến đếm -->
+                            {foreach from=$product_images[$product->getId()] item=image}
+                                {if $i == 1}
+                                    {break}
+                                {/if}
+                                <img src="uploads/{$image->getUrl()}" alt="Giày 1">
+                                {assign var="i" value=$i+1} <!-- Tăng biến đếm -->
+                            {/foreach}
+                        </div>
+                        <div class="cart-item-details">
+                            <!-- Lấy tên sản phẩm, size, màu sắc từ đối tượng product -->
+                            <h3 id="product-name-{$product->getId()}">{$product->getName()}</h3>
+                        </div>
+                        <div class="cart-item-price">
+                            <!-- Lấy giá sản phẩm từ đối tượng product -->
+                            <p>{number_format($product->getPrice(), 0, '.', '.')} VND</p>
+                        </div>
+
+                        <div class="cart-item-color">
+                            <p id=" id="product-color-{$product->getId()}">Màu {$product->getColorId()->getColorName()}</p>
+                        </div>
+
+                        <div class="cart-item-size">
+                            <p id="product-size-{$product->getId()}">Kích cỡ: {$product->getSizeId()->getSizeName()}</p>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <!-- Cập nhật số lượng sản phẩm trong giỏ -->
+                            <input type="number" id="quantity_{$product->getId()}" value="{$quantities[$product->getId()]}" min="1" max="10">
+                        </div>
+
+                        <div class="cart-item-totalmoney">
+                            <!-- Hiển thị tổng tiền cho sản phẩm -->
+                            <p>Tổng tiền: {number_format($totalPrices[$product->getId()], 0, '.', '.')} VND</p>
+                        </div>
+                        <div class="cart-item-remove">
+                            <!-- Nút Mua và Xóa -->
+                            <a href="#" 
+                                onclick="buyProduct('{$product->getName()}', '{$product->getSizeId()->getSizeName()}', '{$product->getColorId()->getColorName()}', document.getElementById('quantity_{$product->getId()}').value)"
+                                style="display: inline-block; padding: 10px 20px; background-color: #28a745; color: white; border-radius: 5px; text-align: center; text-decoration: none; cursor: pointer;">
+                                Mua
+                            </a>
+
+                            <a href="index.php?action=deletecart&id={$product->getId()}" 
+                            style="display: inline-block; padding: 10px 20px; background-color: #dc3545; color: white; border-radius: 5px; text-align: center; text-decoration: none; cursor: pointer;">
+                                Xóa
+                            </a>
+                        </div>
                     </div>
-                    <div class="cart-item-img">
-                        <img src="https://via.placeholder.com/100x100" alt="Giày Thể Thao Nữ">
-                    </div>
-                    <div class="cart-item-details">
-                        <h3>Giày Thể Thao Nữ</h3>
-                        <p>Size: 38</p>
-                        <p>Màu: Đỏ</p>
-                    </div>
-                    <div class="cart-item-price">
-                        <p>1,000,000 VND</p>
-                    </div>
-                    <div class="cart-item-quantity">
-                        <input type="number" value="1" min="1" max="10">
-                    </div>
-                    <div class="cart-item-remove">
-                        <button>mua</button>
-                        <button>Xóa</button>
-                    </div>
-                </div>
+                {/foreach}
+
+
             </div>
 
             <div class="cart-all-select" style="margin-right: 850px;margin-top: 30px;">
@@ -95,15 +103,20 @@
             </div>
 
             <!-- Tổng tiền và các nút hành động -->
-            <div class="cart-summary">
-                <div class="cart-summary-buttons">
-                    <button class="checkout-btn">Tiến Hành Thanh Toán</button>
-                    <button class="continue-shopping-btn">Tiếp Tục Mua Sắm</button>
+            <div style="margin-left: 350px;" class="cart-summary">
+                <div class="cart-summary-buttons" style="display: flex; justify-content: space-between; text-align: center;">
+                    <a href="#" onclick="buyAllProducts()"
+                        style="flex: 1; padding: 10px 20px; background-color: #41a83e; color: white; border-radius: 5px; text-align: center; cursor: pointer; text-decoration: none; margin-right: 10px;">
+                        Mua tất cả
+                    </a>
+                    
+                    <a href="index.php?action=index" class="continue-shopping-btn"
+                        style="flex: 1; padding: 10px 20px; background-color: #ff0000; color: white; border-radius: 5px; text-align: center; cursor: pointer; text-decoration: none;">
+                        Tiếp Tục Mua Sắm
+                    </a>
                 </div>
-                <div class="cart-summary-total">
-                    <h3>Tổng Tiền: </h3>
-                    <p id="total-price">2,200,000 VND</p>
-                </div>
+                
+                
             </div>
             
     </section>
@@ -116,5 +129,75 @@
             <p>Địa chỉ: 123 Đường ABC, Thành phố XYZ</p>
         </div>
     </footer>
+    <script>
+        function buyProduct(name, size, color, quantity) {
+            // Tạo URL bằng cách nối chuỗi
+            const url = "index.php?action=buyproductincart" +
+                        "&name=" + encodeURIComponent(name) +
+                        "&size=" + encodeURIComponent(size) +
+                        "&color=" + encodeURIComponent(color) +
+                        "&quantity=" + encodeURIComponent(quantity);
+    
+            // Chuyển hướng tới URL
+            window.location.href = url;
+        }
+
+
+        function buyAllProducts() {
+            const selectedProducts = [];
+            const selectedCheckboxes = document.querySelectorAll('.item-select:checked');
+            selectedCheckboxes.forEach(checkbox => {
+                const productId = checkbox.getAttribute('data-product-id');
+                const productName = document.querySelector(`#product-name-{{$productId}}`).textContent;
+                const productColor = document.querySelector(`#product-color-{{$productId}}`).textContent;
+                const productSize = document.querySelector(`#product-size-{{$productId}}`).textContent;
+                const productQuantity = document.querySelector(`#quantity_{{$productId}}`).value;
+
+                selectedProducts.push({
+                    name: productName,
+                    size: productSize,
+                    color: productColor,
+                    quantity: productQuantity
+                });
+            });
+
+            if (selectedProducts.length > 0) {
+                let url = "index.php?action=buyallproductincart";
+                selectedProducts.forEach(function(product, index) {
+                url += "&product" + index + "name=" + encodeURIComponent(product.name);
+                url += "&product" + index + "size=" + encodeURIComponent(product.size);
+                url += "&product" + index + "color=" + encodeURIComponent(product.color);
+                url += "&product" + index + "quantity=" + encodeURIComponent(product.quantity);
+            });
+                window.location.href = url;
+            } else {
+                alert("Vui lòng chọn ít nhất một sản phẩm.");
+            }
+        }
+
+        document.getElementById('select-all').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.item-select');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+    </script>
+    
+    
+    
+    
+    <!-- <script>
+        // Lắng nghe sự kiện thay đổi trạng thái của checkbox "Tích tất cả sản phẩm"
+        document.getElementById('select-all').addEventListener('change', function() {
+            // Lấy tất cả các checkbox trong giỏ hàng
+            const checkboxes = document.querySelectorAll('.item-select');
+    
+            // Nếu checkbox "Tích tất cả sản phẩm" được chọn, thì chọn tất cả các checkbox sản phẩm
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked; // Đặt trạng thái của từng checkbox bằng trạng thái của checkbox "Tích tất cả sản phẩm"
+            });
+        });
+    </script> -->
+    
 </body>
 </html>

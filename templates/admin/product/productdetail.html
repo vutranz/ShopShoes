@@ -68,7 +68,7 @@
                 
             </div>
             <div class="button-group">
-                <a href="index.php?action=buyProduct&id={$product->getId()}" class="button" style="background-color: green;">Mua ngay</a>
+                <a href="index.php?action=buyProduct&id={$product->getId()}&name={$product->getName()}" class="button" style="background-color: green;">Mua ngay</a>
                 <!-- <a href="index.php?action=addCartProduct&id={$product->getId()}" class="button" style="background-color: red;">Thêm vào giỏ hàng</a> -->
                 <a href="javascript:void(0);" class="button add-to-cart" style="background-color: red;" 
                 data-name="{$product->getName()}">
@@ -87,6 +87,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+
+    
     let slideIndex = 0;
     const slides = document.querySelectorAll('.slide');
 
@@ -160,7 +162,7 @@ window.onload = function() {
     if (!window.selectedSize && !window.selectedColor) {
         // Nếu chưa có size và color, hiển thị mặc định
         document.getElementById("product-name").innerText = "Sản phẩm z";
-        document.getElementById("product-size").innerText = "{{$product->getPrice()}} VND";
+        document.getElementById("product-size").innerText = "{{number_format($product->getPrice(), 0, '.', '.')}} VND";
         document.getElementById("product-color").innerText = "{{$product->getStock()}}";
     }
 }

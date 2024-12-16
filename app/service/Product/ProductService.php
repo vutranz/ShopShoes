@@ -249,53 +249,64 @@ class ProductService implements ProductInterface
         return $products; 
     }
 
+
+// SELECT p.id, p.name, p.description, p.price, p.stock, p.create_at, p.update_at, p.is_active, 
+//                 p.category_id, p.color_id, p.size_id
+//                 FROM products p
+//                 WHERE p.id = (
+//                     SELECT id
+//                     FROM products
+//                     WHERE name = p.name AND is_active = 1
+//                     ORDER BY price ASC, id ASC
+//                     LIMIT 1
+//                 ) AND p.is_active = 1;
     public function searchProducts($name, $categoryId, $colorId, $sizeId, $sort) {
-        $query = "
-            SELECT p.id, p.name, p.description, p.price, p.stock, p.create_at, p.update_at, p.is_active, 
-                   p.category_id, p.color_id, p.size_id
-            FROM products p
-            WHERE p.id = (
-                SELECT MIN(id)
-                FROM products
-                WHERE name = p.name AND is_active = 1
-            ) AND p.is_active = 1
-        ";
+        // $query = "    SELECT p.id, p.name, p.description, p.price, p.stock, p.create_at, p.update_at, p.is_active, 
+        //     p.category_id, p.color_id, p.size_id
+        // FROM products p
+        // WHERE p.is_active = 1
+        // ";
+        $query="SELECT p.id, p.name, p.description, p.price, p.stock, p.create_at, p.update_at, p.is_active, 
+                     p.category_id, p.color_id, p.size_id
+                     FROM products p
+                     WHERE p.id = (
+                         SELECT id
+                         FROM products
+                       WHERE name = p.name AND is_active = 1
+                    --   ORDER BY price ASC, id ASC
+                         LIMIT 1
+                    ) AND p.is_active = 1;";
     
         $params = [];
     
-        // Lọc theo tên
         if (!empty($name)) {
             $query .= " AND p.name LIKE :name";
             $params[':name'] = '%' . $name . '%';
         }
     
-        // Lọc theo danh mục
         if (!empty($categoryId)) {
             $query .= " AND p.category_id = :category_id";
             $params[':category_id'] = $categoryId;
         }
     
-        // Lọc theo màu
         if (!empty($colorId)) {
             $query .= " AND p.color_id = :color_id";
             $params[':color_id'] = $colorId;
         }
     
-        // Lọc theo kích thước
         if (!empty($sizeId)) {
             $query .= " AND p.size_id = :size_id";
             $params[':size_id'] = $sizeId;
         }
     
-        // Thêm điều kiện sắp xếp
         switch ($sort) {
-            case 0: // Giá giảm dần
+            case 0: 
                 $query .= " ORDER BY p.price DESC";
                 break;
-            case 1: // Giá tăng dần
+            case 1: 
                 $query .= " ORDER BY p.price ASC";
                 break;
-            default: // Sắp xếp mặc định
+            default: 
                 $query .= " ORDER BY p.name ASC";
                 break;
         }
@@ -303,15 +314,14 @@ class ProductService implements ProductInterface
         $stmt = $this->connection->prepare($query);
         $stmt->execute($params);
     
-        // Lấy tất cả kết quả
+       
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     
-        // Kiểm tra nếu không có sản phẩm nào
+       
         if (empty($results)) {
-            return []; // Trả về mảng rỗng
+            return []; 
         }
     
-        // Tạo danh sách sản phẩm
         $products = [];
         foreach ($results as $row) {
             $category = $this->categoryService->getCategoryById($row['category_id']);
@@ -340,10 +350,11 @@ class ProductService implements ProductInterface
 
     public function getColorByname($name){
         $query = "SELECT sizes.size_name, colors.color_name, colors.color_code
-                  FROM products
-                  JOIN sizes ON products.size_id = sizes.id
-                  JOIN colors ON products.color_id = colors.id
-                  WHERE products.name = :name";
+        FROM products
+        JOIN sizes ON products.size_id = sizes.id
+        JOIN colors ON products.color_id = colors.id
+        WHERE products.name = :name
+        ORDER BY CAST(sizes.size_name AS UNSIGNED) ASC";
     
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':name', $name, \PDO::PARAM_STR);
@@ -365,22 +376,6 @@ class ProductService implements ProductInterface
         return ['sizes' => $sizes, 'colors' => $colors];
     }
     
-    
-//     public function getProductByNameColorSize($name, $size_id, $color_id)
-// {
-//     $query = "SELECT price, stock FROM products WHERE name = :name AND size_id = :size_id AND color_id = :color_id";
-//     $stmt = $this->connection->prepare($query);
-//     $stmt->bindParam(':name', $name);
-//     $stmt->bindParam(':size_id', $size_id);
-//     $stmt->bindParam(':color_id', $color_id);
-//     $stmt->execute();
-    
-//     $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-    
-//     error_log(print_r($result, true));
-    
-//     return $result;
-// }
 
 
     
