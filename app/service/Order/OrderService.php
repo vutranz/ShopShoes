@@ -1,15 +1,19 @@
 <?php
 namespace app\service\Order;
 
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\Order.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Order\OrderInterface.php';
-require_once 'E:/xampp/htdocs/ShopShoes/config/ConnectionDB.php'; 
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\User\UserService.php';
+require_once 'config/PathConfig.php'; 
+
+require_once BASE_PATH . 'app/model/Order.php';
+require_once BASE_PATH . 'app/service/Order/OrderInterface.php';
+require_once BASE_PATH . 'config/ConnectionDB.php'; 
+require_once BASE_PATH . 'app/service/User/UserService.php';
+require_once BASE_PATH . 'app/service/Product/ProductService.php';
 
 use app\model\Order;
 use app\service\Order\OrderInterface;
 use config\ConnectionDB;
 use app\service\User\UserService;
+use app\service\Product\ProductService;
 
 class OrderService implements OrderInterface
 {
@@ -66,7 +70,7 @@ class OrderService implements OrderInterface
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $orders[] = new Order(
                 $row['id'],
-                $row['user_id'],
+                $user_id = $this->userService->getUserById($row['user_id']),
                 $row['full_name'],
                 $row['email'],
                 $row['phone_number'],
@@ -110,7 +114,58 @@ class OrderService implements OrderInterface
     
         return null;
     }
+
+    public function updateStatusOrder($id, $status) {
+        $query = "UPDATE `orders` SET status = '$status', update_at = NOW() WHERE id = $id";
+        $stmt = $this->connection->prepare($query);
+        
+        return $stmt->execute();
+       
+    }
     
+
+    public function updateProductStock($orderId) {
+    
+        $query = "UPDATE products p
+        JOIN order_items oi ON p.id = oi.product_id
+        SET p.stock = p.stock - oi.quantity, p.update_at = NOW()
+        WHERE oi.order_id = $orderId
+        AND p.stock >= oi.quantity";
+
+        $stmt = $this->connection->prepare($query);
+        
+        return $stmt->execute();
+    
+    }
+
+
+    public function getCountOrder() {
+        $query = "SELECT COUNT(*) as count FROM orders WHERE is_active = 1";
+        $stmt = $this->connection->prepare($query); 
+        $stmt->execute();
+    
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+    
+        return $result['count'] ?? 0;
+    }
+    
+
+    public function getAllDoanhThu() {
+
+        $query = "SELECT SUM(total_money) as total_revenue FROM orders WHERE status = 'Đã duyệt' AND is_active = 1";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+    
+        return $result['total_revenue'] ?? 0;
+    }
+    
+
+    
+
+
 }
+    
 
 ?>

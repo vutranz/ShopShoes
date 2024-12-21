@@ -1,9 +1,11 @@
 <?php
 namespace app\controller;
 
-require_once 'E:/xampp/htdocs/ShopShoes/config/SmartyConfig.php';
-require_once 'E:/xampp/htdocs/ShopShoes/app/service/Category/CategoryService.php';
-require_once 'E:/xampp/htdocs/ShopShoes/app/model/Category.php';
+require_once 'config/PathConfig.php';
+
+require_once BASE_PATH . 'config/SmartyConfig.php';
+require_once BASE_PATH . 'app/service/Category/CategoryService.php';
+require_once BASE_PATH . 'app/model/Category.php';
 
 use app\service\Category\CategoryService;
 use config\SmartyConfig;

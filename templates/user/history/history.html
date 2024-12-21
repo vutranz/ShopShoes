@@ -10,68 +10,100 @@
     <title>Lịch Sử Mua Hàng</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="http://localhost/ShopShoes/templates/user/history/history.css">
+    <style>
+        /* Giảm kích thước ảnh */
+.product-img {
+    width: 100px; /* Chiều rộng nhỏ lại */
+    height: 100px; /* Chiều cao tương ứng */
+    object-fit: cover; /* Giữ tỉ lệ hình ảnh và cắt phần dư */
+    border-radius: 8px; /* Bo tròn góc ảnh (nếu cần) */
+    margin-bottom: 10px; /* Khoảng cách dưới */
+    
+}
+
+/* Căn giữa và tạo kiểu cho nút */
+.center-link {
+    text-align: center; /* Căn giữa thẻ a */
+    margin-top: 20px;   /* Khoảng cách từ trên xuống */
+}
+
+.back-button {
+    color: red; /* Màu chữ đỏ */
+    text-decoration: none; /* Bỏ gạch chân */
+    border: 2px solid red; /* Khung viền màu đỏ */
+    padding: 10px 20px; /* Kích thước bên trong khung */
+    font-size: 18px; /* Kích thước chữ */
+    font-weight: bold; /* Chữ đậm */
+    display: inline-block; /* Hiển thị dạng block để áp dụng padding */
+    text-transform: uppercase; /* Chữ in hoa */
+    transition: all 0.3s ease; /* Hiệu ứng mượt mà */
+}
+
+.back-button:hover {
+    background-color: red; /* Màu nền khi hover */
+    color: white; /* Màu chữ khi hover */
+}
+
+
+    </style>
 </head>
 <body>
+    
     <section class="order-history">
         <div class="container">
-            <h2>Lịch Sử Mua Hàng</h2>
-
-            <!-- Group of orders for the date 01/01/2024 -->
+            <div>
+                <h2>Lịch Sử Mua Hàng</h2>
+            <div style ="margin-right: 1000px;" class="center-link">
+                <a href="index.php?action=index" class="back-button">Quay lại</a>
+            </div>
+            {foreach $orderGroupedByDate as $date => $orders}
+            </div>
+            
             <div class="order-day">
-                <h3>Ngày: 01/01/2024</h3>
+                <h3>Ngày: {$date}</h3>
                 <div class="order-list">
+                    {foreach $orders as $order}
                     <div class="order-item">
                         <div class="order-details">
-                            <span class="order-status delivered">Trạng thái: Đã giao</span>
-                            <img src="../../../image/giày cao gót/MWC 4179/kem/MWC 4179_1.jpg" alt="Sản phẩm 1" class="order-product-img">
-                            <div class="order-product-info">
-                                <p class="order-product-name">Giày Thể Thao Nam</p>
-                                <p class="order-product-price">1,000,000 VND</p>
+                            <span class="order-status {if $order.status == 'Đã duyệt'}delivered{else}pending{/if}">
+                                Trạng thái: {$order.status}
+                            </span>
+                            
+
+                            <!-- Hiển thị hình ảnh -->
+                            <div class="order-product-image">
+                                {assign var="images" value=$productImages[$order.product->getId()]|default:[]}
+                                {if $images|@count > 0}
+                                    <img class="product-img" src="uploads/{$images[0]->getUrl()}" alt="Sản phẩm {$order.product->getName()}">
+                                {else}
+                                    <img class="product-img" src="uploads/default.jpg" alt="Ảnh mặc định">
+                                {/if}
                             </div>
+
+                            <!-- Thông tin sản phẩm -->
+                            <div class="order-product-info">
+                                <p class="order-product-name">{$order.product->getName()}</p>
+                                <p class="order-product-price">{$order.price|number_format:0} VND</p>
+                                <p class="order-product-quantity">Số lượng: {$order.quantity}</p>
+                                <p class="order-product-total-money">Tổng tiền: {$order.total_money|number_format:0} VND</p>
+                            </div>
+
+                            <!-- Nút hành động -->
                             <div class="order-actions">
                                 <button class="reorder-btn">Mua Lại</button>
                             </div>
                         </div>
                     </div>
-                    <div class="order-item">
-                        <div class="order-details">
-                            <span class="order-status pending">Trạng thái: Đang đợi duyệt</span>
-                            <img src="../../../image/giày cao gót/MWC 4179/kem/MWC 4179_1.jpg" alt="Sản phẩm 2" class="order-product-img">
-                            <div class="order-product-info">
-                                <p class="order-product-name">Giày Sandal Nữ</p>
-                                <p class="order-product-price">800,000 VND</p>
-                            </div>
-                            <div class="order-actions">
-                                <button class="reorder-btn">Mua Lại</button>
-                            </div>
-                        </div>
-                    </div>
+                    {/foreach}
                 </div>
             </div>
-
-            <!-- Group of orders for the date 15/02/2024 -->
-            <div class="order-day">
-                <h3>Ngày: 15/02/2024</h3>
-                <div class="order-list">
-                    <div class="order-item">
-                        <div class="order-details">
-                            <span class="order-status delivered">Trạng thái: Đã giao</span>
-                            <img src="../../../image/giày cao gót/MWC 4179/kem/MWC 4179_1.jpg" alt="Sản phẩm 3" class="order-product-img">
-                            <div class="order-product-info">
-                                <p class="order-product-name">Giày Boot Nữ</p>
-                                <p class="order-product-price">1,200,000 VND</p>
-                            </div>
-                            <div class="order-actions">
-                                <button class="reorder-btn">Mua Lại</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Add more date groups here as needed -->
-
+            {/foreach}
         </div>
     </section>
+   
+    
+    
 </body>
+
+
 </html>

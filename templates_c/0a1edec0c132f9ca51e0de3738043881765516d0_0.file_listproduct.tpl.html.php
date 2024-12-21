@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.1, created on 2024-12-12 10:25:31
+/* Smarty version 5.4.1, created on 2024-12-19 09:40:09
   from 'file:templates\admin\product\listproduct.tpl.html' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.1',
-  'unifunc' => 'content_675aac0bae0871_62740898',
+  'unifunc' => 'content_6763dbe9de0869_14945349',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0a1edec0c132f9ca51e0de3738043881765516d0' => 
     array (
       0 => 'templates\\admin\\product\\listproduct.tpl.html',
-      1 => 1733995458,
+      1 => 1734597478,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_675aac0bae0871_62740898 (\Smarty\Template $_smarty_tpl) {
+function content_6763dbe9de0869_14945349 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates\\admin\\product';
 ?><!DOCTYPE html>
 <html lang="vi">
@@ -228,7 +228,13 @@ table th {
 
 <div class="container">
     <h1 style="padding-left: 150px;">Danh Sách Sản Phẩm</h1>
+    <?php if ((null !== ($_smarty_tpl->getValue('errorMessage') ?? null)) && $_smarty_tpl->getValue('errorMessage') != '') {?>
+    <div id="error-message" style="color: red; background-color: #f8d7da; padding: 10px; margin: 10px 0; border: 1px solid #f5c6cb; border-radius: 5px;">
+        <?php echo $_smarty_tpl->getValue('errorMessage');?>
 
+    </div>
+<?php }?>
+    
     <!-- Mục thêm sản phẩm -->
     <div class="add-product">
         <a href="index.php?action=formAddProduct">Thêm Sản Phẩm <i class="fas fa-plus-circle"></i></a>

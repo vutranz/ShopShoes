@@ -1,9 +1,11 @@
 <?php
 namespace app\model;
 
-require_once 'E:/xampp/htdocs/ShopShoes/app/model/Category.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\Color.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\Size.php';
+require_once 'config/PathConfig.php'; 
+
+require_once BASE_PATH . 'app/model/Category.php';
+require_once BASE_PATH . 'app/model/Color.php';
+require_once BASE_PATH . 'app/model/Size.php';
 
 class Product {
     private $id;

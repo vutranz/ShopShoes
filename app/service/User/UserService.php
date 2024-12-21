@@ -40,7 +40,35 @@ class UserService implements UserInterface
     public function userLogin(){;}
     public function updateUser($id, User $user){;}
     public function deleteUser($id){;}
-    public function getAllUsers(){;}
+    
+    public function getAllUsers(){
+        $query = "SELECT * FROM `users`";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+        
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        $users = [];
+        
+        foreach ($result as $row) {
+            $users[] = new User(
+                $row['id'],
+                $row['full_name'],
+                $row['gender'],
+                $row['email'],
+                $row['password'],
+                $row['phone_number'],
+                $row['address'],
+                $row['day_of_birth'],
+                $row['create_at'],
+                $row['update_at'],
+                $row['is_active'],
+                $row['profile_image']
+            );
+        }
+        
+        return $users;
+    }
 
     public function getUserById($id){
         $query = "SELECT * FROM `users` WHERE id = '$id'";

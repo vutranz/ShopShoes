@@ -1,17 +1,18 @@
 <?php
 namespace app\controller;
 
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\CartItem\CartItemService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\Cart.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\User\UserService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\Cart.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Cart\CartService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Product\ProductService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Color\ColorService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Size\SizeService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\CartItem.php';
-require_once 'E:/xampp/htdocs/ShopShoes/config/SmartyConfig.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Product_image\Product_imageService.php';
+require_once 'config/PathConfig.php';
+
+require_once BASE_PATH . 'app/service/CartItem/CartItemService.php';
+require_once BASE_PATH . 'app/model/Cart.php';
+require_once BASE_PATH . 'app/service/User/UserService.php';
+require_once BASE_PATH . 'app/service/Cart/CartService.php';
+require_once BASE_PATH . 'app/service/Product/ProductService.php';
+require_once BASE_PATH . 'app/service/Color/ColorService.php';
+require_once BASE_PATH . 'app/service/Size/SizeService.php';
+require_once BASE_PATH . 'app/model/CartItem.php';
+require_once BASE_PATH . 'config/SmartyConfig.php';
+require_once BASE_PATH . 'app/service/Product_image/Product_imageService.php';
 
 
 

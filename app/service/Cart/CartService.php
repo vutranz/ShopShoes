@@ -1,10 +1,12 @@
 <?php
 namespace app\service\Cart;
 
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Cart\CartInterface.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\Cart.php';
-require_once 'E:/xampp/htdocs/ShopShoes/config/ConnectionDB.php';  
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\User\UserService.php';
+require_once 'config/PathConfig.php'; 
+
+require_once BASE_PATH . 'app/service/Cart/CartInterface.php';
+require_once BASE_PATH . 'app/model/Cart.php';
+require_once BASE_PATH . 'config/ConnectionDB.php';  
+require_once BASE_PATH . 'app/service/User/UserService.php';
 
 
 use app\service\Cart\CartInterface;

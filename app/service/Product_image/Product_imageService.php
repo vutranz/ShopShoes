@@ -1,9 +1,11 @@
 <?php
 namespace app\service\Product_image;
 
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Product_image\Product_imageInterface.php';
-require_once 'E:/xampp/htdocs/ShopShoes/config/ConnectionDB.php';  
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\Product_image.php';
+require_once 'config/PathConfig.php'; 
+
+require_once BASE_PATH . 'app/service/Product_image/Product_imageInterface.php';
+require_once BASE_PATH . 'config/ConnectionDB.php';  
+require_once BASE_PATH . 'app/model/Product_image.php';
 
 use config\ConnectionDB;
 use app\model\Product_image;
@@ -46,10 +48,10 @@ class Product_imageService{
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             $images[] = new Product_image(
                 $row['id'],
-                $row['url'],    // Lấy URL ảnh
+                $row['url'],    
                 $row['create_at'],
                 $row['is_active'],
-                $productId      // Sản phẩm liên quan
+                $productId      
             );
         }
     

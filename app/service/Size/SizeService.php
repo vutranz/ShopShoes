@@ -1,9 +1,11 @@
 <?php
 namespace app\service\Size;
 
-require_once 'app\service\Size\SizeInterface.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\Size.php';
-require_once 'E:/xampp/htdocs/ShopShoes/config/ConnectionDB.php';  
+require_once 'config/PathConfig.php'; 
+
+require_once BASE_PATH . 'app/service/Size/SizeInterface.php';
+require_once BASE_PATH . 'app/model/Size.php';
+require_once BASE_PATH . 'config/ConnectionDB.php';
 
 
 use app\service\Size\SizeInterface;

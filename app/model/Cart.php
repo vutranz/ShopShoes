@@ -1,7 +1,9 @@
 <?php
 
 namespace app\model;
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\User.php';
+
+require_once 'config/PathConfig.php'; 
+require_once BASE_PATH . 'app/model/User.php';
 
 use app\model\User;
 

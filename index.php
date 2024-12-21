@@ -47,7 +47,7 @@ $router->addRoute('login', [$userController, 'loginController']);
 $router->addRoute('logout', [$userController, 'logoutController']);
 // Thêm route mới trong Router để quay lại trang dashboard
 $router->addRoute('backToDashboard', [$userController, 'backToDashboard']);
-
+$router->addRoute('showuser', [$userController, 'showAllUserControllers']);
 
 // Admin Routes
 $router->addRoute('dashboard', [$userController, 'showDasboard']);
@@ -80,11 +80,23 @@ $router->addRoute('buyallproductincart', [$cartController, 'buySelectedProductsC
 
 //router order
 $router->addRoute('placeOrder', [$orderController, 'orderController']);
+$router->addRoute('historyorder', [$orderController, 'showHistoryController']);
+$router->addRoute('listdonhang', [$orderController, 'showListDonHangController']);
+$router->addRoute('duyetdonhang', [$orderController, 'DuyetDonHangController']);
+$router->addRoute('doanhthu', [$orderController, 'showDoanhThuController']);
+$router->addRoute('searchdanhthu', [$orderController, 'searchDoanhThuController']);
+$router->addRoute('export_excel', [$orderController, 'exportExcelController']);
 
 
-// Routes cho màu sắc và kích thước
+
+
+// Routes color
 $router->addRoute('getColorByid', [$colorController, 'getColorByIdController']);
+$router->addRoute('showcolor', [$colorController, 'showAllColorController']);
+
+// Routes size
 $router->addRoute('getSizeByid', [$sizeController, 'getSizeByIdController']);
+$router->addRoute('showsize', [$sizeController, 'getAllSizeController']);
 
 // Route cho trang chủ
 $router->addRoute('index', [$userController, 'showindex']);

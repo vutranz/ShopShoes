@@ -2,14 +2,15 @@
 
 namespace app\controller;
 
+require_once 'config/PathConfig.php'; 
 
-require_once 'E:/xampp/htdocs/ShopShoes/config/SmartyConfig.php';
-require_once 'E:/xampp/htdocs/ShopShoes/app/service/Product/ProductService.php';
-require_once 'E:/xampp/htdocs/ShopShoes/app/model/Product.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Category\CategoryService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Color\ColorService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Size\SizeService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Product_image\Product_imageService.php';
+require_once BASE_PATH . 'config/SmartyConfig.php';
+require_once BASE_PATH . 'app/service/Product/ProductService.php';
+require_once BASE_PATH . 'app/model/Product.php';
+require_once BASE_PATH . 'app/service/Category/CategoryService.php';
+require_once BASE_PATH . 'app/service/Color/ColorService.php';
+require_once BASE_PATH . 'app/service/Size/SizeService.php';
+require_once BASE_PATH . 'app/service/Product_image/Product_imageService.php';
 
 use config\SmartyConfig;
 use app\service\Product\ProductService;
@@ -132,7 +133,6 @@ class ProductController {
                 $totalFiles = count($_FILES['images']['name']);
                 $uploadDir = 'uploads/';
             
-                // Kiểm tra và tạo thư mục nếu chưa tồn tại
                 if (!file_exists($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }
@@ -141,19 +141,15 @@ class ProductController {
                     $imageName = basename($_FILES['images']['name'][$i]);
                     $imageTmpPath = $_FILES['images']['tmp_name'][$i];
             
-                    // Tạo tên tệp tin mới với ID sản phẩm để tránh trùng lặp
                     $baseName = pathinfo($imageName, PATHINFO_FILENAME);
                     $extension = pathinfo($imageName, PATHINFO_EXTENSION);
                     $uniqueName = $productId . '_' . uniqid($baseName . '_') . '.' . $extension;
             
                     $targetFile = $uploadDir . $uniqueName;
             
-                    // Kiểm tra loại tệp tin hợp lệ
                     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
                     if (in_array($_FILES['images']['type'][$i], $allowedTypes)) {
-                        // Di chuyển tệp tin tới thư mục đích
                         if (move_uploaded_file($imageTmpPath, $targetFile)) {
-                            // Lưu thông tin tệp tin vào cơ sở dữ liệu hoặc dịch vụ
                             $this->product_imageService->addProductImage($productId, $uniqueName);
                         } else {
                             echo 'Lỗi khi tải lên file ' . $imageName . '!';
@@ -211,35 +207,29 @@ class ProductController {
                 $result = $this->productService->updateProduct($id, $product);
     
                 if ($result) {
-                    // Kiểm tra xem có upload hình ảnh mới hay không
                     if (isset($_FILES['images']) && $_FILES['images']['error'][0] == UPLOAD_ERR_OK) {
                         $totalFiles = count($_FILES['images']['name']);
                         $uploadDir = 'uploads/';
     
-                        // Kiểm tra và tạo thư mục nếu chưa tồn tại
                         if (!file_exists($uploadDir)) {
                             mkdir($uploadDir, 0777, true);
                         }
     
-                        // Xóa ảnh cũ chỉ khi có ảnh mới tải lên
                         $this->product_imageService->deleteImagesByProductId($id);
     
                         for ($i = 0; $i < $totalFiles; $i++) {
                             $imageName = basename($_FILES['images']['name'][$i]);
                             $imageTmpPath = $_FILES['images']['tmp_name'][$i];
     
-                            // Tạo tên tệp tin mới để tránh trùng lặp
                             $baseName = pathinfo($imageName, PATHINFO_FILENAME);
                             $extension = pathinfo($imageName, PATHINFO_EXTENSION);
                             $uniqueName = $id . '_' . uniqid($baseName . '_') . '.' . $extension;
     
                             $targetFile = $uploadDir . $uniqueName;
     
-                            // Kiểm tra loại tệp tin hợp lệ
                             $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
                             if (in_array($_FILES['images']['type'][$i], $allowedTypes)) {
                                 if (move_uploaded_file($imageTmpPath, $targetFile)) {
-                                    // Lưu thông tin tệp tin mới vào cơ sở dữ liệu
                                     $this->product_imageService->addProductImage($id, $uniqueName);
                                 } else {
                                     echo 'Lỗi khi tải lên file ' . $imageName . '!';
@@ -250,7 +240,6 @@ class ProductController {
                         }
                     }
     
-                    // Nếu không có hình ảnh mới, giữ nguyên hình ảnh cũ
                     header("Location: index.php?action=listproduct");
                     exit;
                 } else {

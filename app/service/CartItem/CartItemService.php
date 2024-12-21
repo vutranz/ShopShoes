@@ -1,11 +1,13 @@
 <?php
 namespace app\service\CartItem;
 
-require_once 'E:/xampp/htdocs/ShopShoes/config/ConnectionDB.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\CartItem\CartItemInterface.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\CartItem.php';
+require_once 'config/PathConfig.php'; 
 
-// use app\model\Cart;
+require_once BASE_PATH . 'config/ConnectionDB.php';
+require_once BASE_PATH . 'app/service/CartItem/CartItemInterface.php';
+require_once BASE_PATH . 'app/model/CartItem.php';
+
+
 use app\model\CartItem;
 use config\ConnectionDB;
 use app\service\CartItem\CartItemInterfacel;

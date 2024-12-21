@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.1, created on 2024-12-16 04:36:06
+/* Smarty version 5.4.1, created on 2024-12-17 14:44:10
   from 'file:templates/index.tpl.html' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.1',
-  'unifunc' => 'content_675fa026444ce3_31556207',
+  'unifunc' => 'content_6761802a8cbf06_60422574',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e4ae7b146e03bbb83ea55511493b89ccd6ceadde' => 
     array (
       0 => 'templates/index.tpl.html',
-      1 => 1734320162,
+      1 => 1734443049,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_675fa026444ce3_31556207 (\Smarty\Template $_smarty_tpl) {
+function content_6761802a8cbf06_60422574 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates';
 ?><!DOCTYPE html>
 <html lang="vi">
@@ -64,10 +64,14 @@ $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates';
                     <li><a href="#">Trang Chủ</a></li>
                     <li><a href="#categories">Danh Mục</a></li>
                     <li><a href="#product-new">Sản Phẩm Mới</a></li>
-                    <li><a href="#">Sản Phẩm Phổ Biến</a></li>
+                    <!-- <li><a href="#">Sản Phẩm Phổ Biến</a></li> -->
                     <li><a href="#">Liên Hệ</a></li>
                     <?php if (!$_smarty_tpl->getValue('is_logged_in')) {?>
                     <li><a href="index.php?action=FormLogin">Đăng nhập</a></li>
+                    <?php }?>
+
+                    <?php if ($_smarty_tpl->getValue('is_logged_in')) {?>
+                    <li><a href="index.php?action=historyorder">Lịch sử đặt hàng</a></li>
                     <?php }?>
 
                     <?php if ($_smarty_tpl->getValue('is_logged_in')) {?>

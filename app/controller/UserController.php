@@ -1,21 +1,22 @@
 <?php
 
-
 namespace app\controller;
 
 session_start();
-error_log("Session hiện tại: " . print_r($_SESSION, true));
-require_once 'E:/xampp/htdocs/ShopShoes/config/SmartyConfig.php';
-require_once 'E:/xampp/htdocs/ShopShoes/app/service/User/UserService.php';
-require_once 'E:/xampp/htdocs/ShopShoes/app/model/User.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Product\ProductService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\controller\ProductController.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\controller\HomeController.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Category\CategoryService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Product_image\Product_imageService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Color\ColorService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Size\SizeService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\CartItem\CartItemService.php';
+
+require_once 'config\PathConfig.php';
+require_once BASE_PATH . 'config/SmartyConfig.php';
+require_once BASE_PATH . 'app/service/User/UserService.php';
+require_once BASE_PATH . 'app/model/User.php';
+require_once BASE_PATH . 'app/service/Product/ProductService.php';
+require_once BASE_PATH . 'app/controller/ProductController.php';
+require_once BASE_PATH . 'app/controller/HomeController.php';
+require_once BASE_PATH . 'app/service/Category/CategoryService.php';
+require_once BASE_PATH . 'app/service/Product_image/Product_imageService.php';
+require_once BASE_PATH . 'app/service/Color/ColorService.php';
+require_once BASE_PATH . 'app/service/Size/SizeService.php';
+require_once BASE_PATH . 'app/service/CartItem/CartItemService.php';
+require_once BASE_PATH . 'app/service/Order/OrderService.php';
 
 
 use config\SmartyConfig;
@@ -29,6 +30,7 @@ use app\service\Product_image\Product_imageService;
 use app\service\Color\ColorService;
 use app\service\Size\SizeService;
 use app\service\CartItem\CartItemService;
+use app\service\Order\OrderService;
 
 class UserController{
     private $smarty;
@@ -41,6 +43,7 @@ class UserController{
     private $colorService;
     private $sizeService;
     private $cartItemService;
+    private $orderService;
 
     public function __construct() {
 
@@ -58,6 +61,7 @@ class UserController{
         $this->colorService = new ColorService();
         $this->sizeService = new SizeService();
         $this->cartItemService = new CartItemService();
+        $this->orderService = new OrderService();
     }
 
 
@@ -216,6 +220,12 @@ class UserController{
         $totalProduct = $this->productService->getCountProducts(); 
         $totalUser = $this->usersService->getCountUsers();
 
+        $totalOrder = $this->orderService->getCountOrder();
+        $totalMoney = $this->orderService->getAllDoanhThu();
+
+        $this->smarty->assign('totalOrder', $totalOrder);
+        $this->smarty->assign('totalMoney', $totalMoney);
+
         $this->smarty->assign('totalUser', $totalUser);
         $this->smarty->assign('totalProduct', $totalProduct);
        
@@ -347,7 +357,13 @@ class UserController{
         
     }
     
+    public function showAllUserControllers()
+    {
+        $users = $this->usersService->getAllUsers();
+        $this->smarty->assign('users', $users);
+        $this->smarty->display('templates\admin\customer\customer.html');
 
+    }
     
 }
 ?>

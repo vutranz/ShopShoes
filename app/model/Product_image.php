@@ -1,7 +1,8 @@
 <?php
 namespace app\model;
 
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\Product.php';
+require_once 'config/PathConfig.php';
+require_once BASE_PATH . 'app/model/Product.php';
 
 class Product_image{
     private $id;

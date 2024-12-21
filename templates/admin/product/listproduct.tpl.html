@@ -204,7 +204,12 @@ table th {
 
 <div class="container">
     <h1 style="padding-left: 150px;">Danh Sách Sản Phẩm</h1>
-
+    {if isset($errorMessage) && $errorMessage != ''}
+    <div id="error-message" style="color: red; background-color: #f8d7da; padding: 10px; margin: 10px 0; border: 1px solid #f5c6cb; border-radius: 5px;">
+        {$errorMessage}
+    </div>
+{/if}
+    
     <!-- Mục thêm sản phẩm -->
     <div class="add-product">
         <a href="index.php?action=formAddProduct">Thêm Sản Phẩm <i class="fas fa-plus-circle"></i></a>

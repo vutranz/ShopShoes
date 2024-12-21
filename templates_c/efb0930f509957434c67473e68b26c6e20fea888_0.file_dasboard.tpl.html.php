@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.1, created on 2024-12-12 03:24:53
+/* Smarty version 5.4.1, created on 2024-12-19 15:17:25
   from 'file:dasboard.tpl.html' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.1',
-  'unifunc' => 'content_675a49751c6da7_42330298',
+  'unifunc' => 'content_67642af5481096_23795132',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'efb0930f509957434c67473e68b26c6e20fea888' => 
     array (
       0 => 'dasboard.tpl.html',
-      1 => 1733565095,
+      1 => 1734617843,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_675a49751c6da7_42330298 (\Smarty\Template $_smarty_tpl) {
+function content_67642af5481096_23795132 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates';
 ?><!DOCTYPE html>
 <html lang="vi">
@@ -269,7 +269,7 @@ $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates';
             <li class="menu-item">
                 <a href="#" class="dropdown-toggle">Quản Lý Màu Sắc</a>
                 <ul class="dropdown">
-                    <li><a href="index.php?action=listcategory">Danh sách màu sắc</a></li>
+                    <li><a href="index.php?action=showcolor">Danh sách màu sắc</a></li>
                 </ul>
             </li>
 
@@ -277,7 +277,7 @@ $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates';
             <li class="menu-item">
                 <a href="#" class="dropdown-toggle">Quản Lý Size</a>
                 <ul class="dropdown">
-                    <li><a href="index.php?action=listcategory">Danh sách size</a></li>
+                    <li><a href="index.php?action=showsize">Danh sách size</a></li>
                 </ul>
             </li>
 
@@ -285,7 +285,7 @@ $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates';
             <li class="menu-item">
                 <a href="#" class="dropdown-toggle">Quản Lý Khách Hàng</a>
                 <ul class="dropdown">
-                    <li><a href="#">Xem Danh sách khách hàng</a></li>
+                    <li><a href="index.php?action=showuser">Xem Danh sách khách hàng</a></li>
                 </ul>
             </li>
 
@@ -293,14 +293,21 @@ $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates';
             <li class="menu-item">
                 <a href="#" class="dropdown-toggle">Quản Lý Duyệt Đơn Hàng</a>
                 <ul class="dropdown">
-                    <li><a href="#">Danh sách duyệt đơn</a></li>
-                    <li><a href="#">Tạo Mã Giảm Giá</a></li>
+                    <li><a href="index.php?action=listdonhang">Danh sách đơn hàng</a></li>
+                    <!-- <li><a href="#">Tạo Mã Giảm Giá</a></li> -->
                 </ul>
             </li>
 
-            <li><a href="#">Thống kê</a></li>
+            <li class="menu-item">
+                <a href="#" class="dropdown-toggle">Thống kê</a>
+                <ul class="dropdown">
+                    <li><a href="index.php?action=doanhthu">Xem doanh thu</a></li>
+                    <!-- <li><a href="#">Tạo Mã Giảm Giá</a></li> -->
+                </ul>
+            </li>
+
     
-                <li><a href="index.php?action=logout">Đăng xuất</a></li>
+            <li><a href="index.php?action=logout">Đăng xuất</a></li>
            
             
         </ul>
@@ -320,11 +327,14 @@ $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates';
         <div class="stats">
             <div class="stat-card">
                 <h3>Tổng Doanh Thu</h3>
-                <p>2,345,678 VND</p>
+                <p><?php echo $_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('totalMoney'),0,',','.');?>
+ VND
+                </p>
             </div>
             <div class="stat-card">
                 <h3>Tổng Đơn Hàng</h3>
-                <p>1,256</p>
+                <p><?php echo $_smarty_tpl->getValue('totalOrder');?>
+</p>
             </div>
             <div class="stat-card">
                 <h3>Người Dùng</h3>

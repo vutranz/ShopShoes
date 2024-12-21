@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.4.1, created on 2024-12-16 07:41:08
+/* Smarty version 5.4.1, created on 2024-12-17 14:42:45
   from 'file:templates/admin/product/productdetail.html' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.4.1',
-  'unifunc' => 'content_675fcb849c6382_88992512',
+  'unifunc' => 'content_67617fd509abf5_99137873',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f8ad6631eccaed63eed7ef678044d27bbf31bddf' => 
     array (
       0 => 'templates/admin/product/productdetail.html',
-      1 => 1734331267,
+      1 => 1734442964,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_675fcb849c6382_88992512 (\Smarty\Template $_smarty_tpl) {
+function content_67617fd509abf5_99137873 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates\\admin\\product';
 ?>
 <!DOCTYPE html>
@@ -32,10 +32,38 @@ $_smarty_current_dir = 'E:\\xampp\\htdocs\\ShopShoes\\templates\\admin\\product'
     <link rel="stylesheet" href="http://localhost/ShopShoes/templates/admin/product/productdetail.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-   
+   <style>
+    /* Căn giữa và tạo kiểu cho nút */
+.center-link {
+    text-align: center; /* Căn giữa thẻ a */
+    margin-top: 20px;   /* Khoảng cách từ trên xuống */
+}
+
+.back-button {
+    color: red; /* Màu chữ đỏ */
+    text-decoration: none; /* Bỏ gạch chân */
+    border: 2px solid red; /* Khung viền màu đỏ */
+    padding: 10px 20px; /* Kích thước bên trong khung */
+    font-size: 18px; /* Kích thước chữ */
+    font-weight: bold; /* Chữ đậm */
+    display: inline-block; /* Hiển thị dạng block để áp dụng padding */
+    text-transform: uppercase; /* Chữ in hoa */
+    transition: all 0.3s ease; /* Hiệu ứng mượt mà */
+}
+
+.back-button:hover {
+    background-color: red; /* Màu nền khi hover */
+    color: white; /* Màu chữ khi hover */
+}
+   </style>
 </head>
 <body>
-<a href="index.php?action=index">quay lại</a>
+
+<div style ="margin-right: 1000px;" class="center-link">
+    <a href="index.php?action=index" class="back-button">Quay lại</a>
+    
+</div>
+<h2 style="text-align: center;">Chi tiết sản phẩm</h2>
 <div class="container">
     <div class="product-details">
         <div class="product-images">

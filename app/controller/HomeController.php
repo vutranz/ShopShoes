@@ -1,10 +1,12 @@
 <?php
 namespace app\controller;
 
-require_once 'E:/xampp/htdocs/ShopShoes/config/SmartyConfig.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Product\ProductService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Category\CategoryService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Product_image\Product_imageService.php';
+require_once 'config/PathConfig.php';
+
+require_once BASE_PATH . 'config/SmartyConfig.php';
+require_once BASE_PATH . 'app/service/Product/ProductService.php';
+require_once BASE_PATH . 'app/service/Category/CategoryService.php';
+require_once BASE_PATH . 'app/service/Product_image/Product_imageService.php';
 
 use config\SmartyConfig;
 use app\service\Product\ProductService;

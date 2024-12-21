@@ -1,9 +1,11 @@
 <?php
 namespace app\service\Color;
 
-require_once 'E:/xampp/htdocs/ShopShoes/app/service/Color/ColorInterface.php';
-require_once 'E:/xampp/htdocs/ShopShoes/config/ConnectionDB.php';  
-require_once 'E:\xampp\htdocs\ShopShoes\app\model\Color.php';
+require_once 'config/PathConfig.php'; 
+
+require_once BASE_PATH . 'app/service/Color/ColorInterface.php';
+require_once BASE_PATH . 'config/ConnectionDB.php';  
+require_once BASE_PATH . 'app/model/Color.php';
 
 use app\service\Color\ColorInterface;
 use app\model\Color;

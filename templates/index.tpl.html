@@ -40,10 +40,14 @@
                     <li><a href="#">Trang Chủ</a></li>
                     <li><a href="#categories">Danh Mục</a></li>
                     <li><a href="#product-new">Sản Phẩm Mới</a></li>
-                    <li><a href="#">Sản Phẩm Phổ Biến</a></li>
+                    <!-- <li><a href="#">Sản Phẩm Phổ Biến</a></li> -->
                     <li><a href="#">Liên Hệ</a></li>
                     {if !$is_logged_in}
                     <li><a href="index.php?action=FormLogin">Đăng nhập</a></li>
+                    {/if}
+
+                    {if $is_logged_in}
+                    <li><a href="index.php?action=historyorder">Lịch sử đặt hàng</a></li>
                     {/if}
 
                     {if $is_logged_in}

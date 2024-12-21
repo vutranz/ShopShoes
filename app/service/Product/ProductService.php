@@ -1,12 +1,14 @@
 <?php
 namespace app\service\Product;
 
-require_once 'E:/xampp/htdocs/ShopShoes/app/service/Product/ProductInterface.php';
-require_once 'E:/xampp/htdocs/ShopShoes/config/ConnectionDB.php';  
-require_once 'E:/xampp/htdocs/ShopShoes/app/model/Product.php';
-require_once 'E:/xampp/htdocs/ShopShoes/app/service/Category/CategoryService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Color\ColorService.php';
-require_once 'E:\xampp\htdocs\ShopShoes\app\service\Size\SizeService.php';
+require_once 'config/PathConfig.php'; 
+
+require_once BASE_PATH . 'app/service/Product/ProductInterface.php';
+require_once BASE_PATH . 'config/ConnectionDB.php';  
+require_once BASE_PATH . 'app/model/Product.php';
+require_once BASE_PATH . 'app/service/Category/CategoryService.php';
+require_once BASE_PATH . 'app/service/Color/ColorService.php';
+require_once BASE_PATH . 'app/service/Size/SizeService.php';
 
 use app\service\Product\ProductInterface;
 use config\ConnectionDB;
@@ -35,9 +37,10 @@ class ProductService implements ProductInterface
     }
 
 
-    public function addProduct(Product $product) {
-
-        
+    public function addProduct(Product $product)
+{
+    try {
+        // Lấy dữ liệu từ đối tượng Product
         $name = $product->getName();
         $description = $product->getDescription();
         $price = $product->getPrice();
@@ -45,34 +48,44 @@ class ProductService implements ProductInterface
         $create_at = $product->getCreateAt();
         $update_at = $product->getUpdateAt();
         $is_active = $product->getIsActive();
-        $category_id = $product->getCategoryId()->getId(); 
-        $color_id = $product->getColorId()->getId();        
-        $size_id = $product->getSizeId()->getId();          
-        
-       
+        $category_id = $product->getCategoryId()->getId();
+        $color_id = $product->getColorId()->getId();
+        $size_id = $product->getSizeId()->getId();
+
+        // Câu lệnh SQL
         $query = "
-             INSERT INTO `products`(
+            INSERT INTO `products`(
                 `name`, `description`, `price`, `stock`, 
                 `create_at`, `update_at`, `is_active`, 
                 `category_id`, `color_id`, `size_id`
-             ) 
-             VALUES (
-                 '$name', '$description', $price, $stock, 
-                 '$create_at', '$update_at', $is_active, 
-                 $category_id, $color_id, $size_id
-             )
-         ";
-        
+            ) 
+            VALUES (
+                '$name', '$description', $price, $stock, 
+                '$create_at', '$update_at', $is_active, 
+                $category_id, $color_id, $size_id
+            )
+        ";
+
         $stmt = $this->connection->prepare($query);
-        
-        return $stmt->execute();
+        $stmt->execute();
+
+        return "Sản phẩm đã được thêm thành công!";
+    } catch (PDOException $e) {
+        if (str_contains($e->getMessage(), 'Sản phẩm đã tồn tại')) {
+            return "Sản phẩm đã tồn tại với cùng tên, màu sắc và kích thước.";
+        } else {
+            error_log("Lỗi thêm sản phẩm: " . $e->getMessage(), 3, "errors.log");
+
+            return "Đã xảy ra lỗi trong quá trình thêm sản phẩm. Vui lòng thử lại.";
+        }
     }
+}
+
     
     
     
 
     public function getAllProduct() {
-        // Truy vấn chỉ lấy sản phẩm có tên duy nhất
         $query = "SELECT * from `products`";
     
         $stmt = $this->connection->prepare($query);
@@ -413,7 +426,88 @@ public function getProductByNameColorSize($name, $size, $color)
 }
 
 
+    public function searchDoanhThu($status, $start_date, $end_date)
+    {
+        $query = "SELECT `order_items`.`id` AS `order_item_id`, `order_items`.`order_id`, 
+                        `order_items`.`product_id`, `order_items`.`quantity`, 
+                        `order_items`.`price`, `order_items`.`total_money` AS `item_total_money`, 
+                        `order_items`.`is_active` AS `item_is_active`, 
+                        `orders`.`user_id`, `orders`.`full_name`, `orders`.`email`, 
+                        `orders`.`phone_number`, `orders`.`address`, `orders`.`note`, 
+                        `orders`.`order_date`, `orders`.`status`, `orders`.`total_money` AS `order_total_money`,
+                        `orders`.`create_at`, `orders`.`update_at`, `orders`.`is_active` AS `order_is_active`, 
+                        `products`.`name` AS `product_name`, `products`.`price` AS `product_price`
+                FROM `order_items`
+                LEFT JOIN `orders` ON `order_items`.`order_id` = `orders`.`id`
+                LEFT JOIN `products` ON `order_items`.`product_id` = `products`.`id`
+                WHERE 1"; 
 
+        if ($status != 'all') {
+            $query .= " AND orders.status = :status";
+        }
+
+        if ($start_date && !$end_date) { 
+            $query .= " AND orders.order_date >= :start_date";
+        } elseif (!$start_date && $end_date) {  
+            $query .= " AND orders.order_date <= :end_date";
+        } elseif ($start_date && $end_date) {  
+            $query .= " AND orders.order_date >= :start_date AND orders.order_date <= :end_date";
+        }
+
+      
+        $stmt = $this->connection->prepare($query);
+
+       
+        if ($status != 'all') {
+            $stmt->bindParam(':status', $status);
+        }
+        if ($start_date && !$end_date) {
+            $stmt->bindParam(':start_date', $start_date);
+        } elseif (!$start_date && $end_date) {
+            $stmt->bindParam(':end_date', $end_date);
+        } elseif ($start_date && $end_date) {
+            $stmt->bindParam(':start_date', $start_date);
+            $stmt->bindParam(':end_date', $end_date);
+        }
+
+        $stmt->execute();
+
+        $orders = [];
+        while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            if (!isset($orders[$row['order_id']])) {
+                $orders[$row['order_id']] = new Order(
+                    $row['order_id'],
+                    $user_id = $this->userService->getUserById($row['user_id']),
+                    $row['full_name'],
+                    $row['email'],
+                    $row['phone_number'],
+                    $row['address'],
+                    $row['note'],
+                    $row['order_date'],
+                    $row['status'],
+                    $row['order_total_money'],
+                    $row['create_at'],
+                    $row['update_at'],
+                    $row['order_is_active']
+                );
+            }
+
+            $orderItem = new OrderItem(
+                $row['order_item_id'],
+                $row['product_id'],
+                $row['quantity'],
+                $row['price'],
+                $row['item_total_money'],
+                $row['item_is_active'],
+                $row['product_name'],
+                $row['product_price']
+            );
+
+            $orders[$row['order_id']]->addOrderItem($orderItem);
+        }
+
+        return array_values($orders); 
+    }
    
 
 

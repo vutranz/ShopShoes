@@ -1,9 +1,11 @@
 <?php
 namespace app\service\Category;
 
-require_once 'E:/xampp/htdocs/ShopShoes/app/Service/Category/CategoryInterface.php';
-require_once 'E:/xampp/htdocs/ShopShoes/config/ConnectionDB.php';  
-require_once 'E:/xampp/htdocs/ShopShoes/app/model/Category.php';
+require_once 'config/PathConfig.php';
+
+require_once BASE_PATH . 'app/Service/Category/CategoryInterface.php';
+require_once BASE_PATH . 'config/ConnectionDB.php';  
+require_once BASE_PATH . 'app/model/Category.php';
 
 use app\service\Category\CategoryInterface;
 use config\ConnectionDB;
